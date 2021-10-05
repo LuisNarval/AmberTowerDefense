@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1978536475730407527}
   - component: {fileID: 1978536475730407526}
   - component: {fileID: 1978536475730407449}
+  - component: {fileID: 213841006803490250}
   - component: {fileID: 1978536475730407448}
   m_Layer: 0
   m_Name: PrototypeEnemy
@@ -120,6 +121,25 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &213841006803490250
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978536475730407450}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b1cc0f82166a3a44af6f71e055538a6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1978536475730407448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,5 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27fdfb454d40bb44dac85f1510e3e4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
+  ID: Prototype
   destination: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  animator: {fileID: 0}

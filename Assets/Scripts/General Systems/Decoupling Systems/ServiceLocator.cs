@@ -6,10 +6,10 @@ using System.Collections.Generic;
 /// If there is a service that is required, the clients won't have to refer to other classes, but will simply have to call 
 /// the Service Locator to find it.
 /// The services have to be registered before they can be used.
-/// This service locator is implementate as an Monostate Class.
+/// This service locator is implemented as an Monostate Class.
 /// </summary>
 
-public static class ServiceLocator
+public class ServiceLocator
 {
     private static readonly IDictionary<Type, object> Services = new Dictionary<Type, Object>();
 

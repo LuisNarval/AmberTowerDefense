@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveSystem : Singleton<WaveSystem>
+public class WaveSystem : MonoBehaviour
 {
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            EventBus.Publish("Spawn");
+            EventBus.Publish(GameEvent.SPAWN);
         }
     }
 

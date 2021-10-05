@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnSystem : Singleton<SpawnSystem>
+public class SpawnSystem : MonoBehaviour
 {
     [SerializeField] private EnemyPool enemyPool;
+    [SerializeField] private EnemyFactory enemyFactory;
 
-    public override void Awake()
+    public void Awake()
     {
-        EventBus.Subscribe("Spawn", SpawnEnemy);
+        EventBus.Subscribe(GameEvent.SPAWN, SpawnEnemy);
     }
 
     public void SpawnEnemy()
@@ -17,5 +18,19 @@ public class SpawnSystem : Singleton<SpawnSystem>
         Debug.Log("A Spider was Instantiated");
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            enemyFactory.Create("Spider");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            enemyFactory.Create("Prototype");
+        }
+
+    }
 
 }

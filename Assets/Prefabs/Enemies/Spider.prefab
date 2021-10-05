@@ -2040,6 +2040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2394db53b70d2514d9b51a28f64e1251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: Spider
   destination: {fileID: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}

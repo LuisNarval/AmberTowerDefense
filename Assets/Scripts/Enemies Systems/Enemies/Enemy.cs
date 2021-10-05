@@ -12,8 +12,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Animator))]
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] protected Transform destination;
-    
+    [SerializeField] public string ID;
+
+    [SerializeField] protected Transform destination;   
     [SerializeField] protected NavMeshAgent navMeshAgent;
     [SerializeField] protected Animator animator;
 
@@ -26,7 +27,7 @@ public abstract class Enemy : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
+        destination = this.transform;
         Move();
     }
 
