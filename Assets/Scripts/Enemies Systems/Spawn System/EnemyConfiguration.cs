@@ -12,7 +12,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Amber/Enemy Configuration")]
 public class EnemyConfiguration : ScriptableObject
 {
-    [SerializeField] private Enemy[] enemies;
+    [SerializeField] public Enemy[] enemies;
 
     private Dictionary<string, Enemy> idToEnemy;
 

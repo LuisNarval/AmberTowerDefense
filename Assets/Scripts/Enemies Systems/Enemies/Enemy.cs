@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// This script is the parent class of all enemies entitys
+/// This script is the parent class of all enemies entities
 /// This script uses the Template Method Design Pattern.
 /// </summary>
 

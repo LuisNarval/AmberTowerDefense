@@ -1,64 +1,135 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
+/// <summary>
+/// This is the Object Pool for the enemies.
+/// We are using this Design Pattern so we can improve optimization.
+/// The idea behind this pattern is to recycle the objects that alredy live in the scene instead of constantly intantiate them.
+/// This script can Pull an object from the pool and if is necesary, it can later Return it to the pool.
+/// When we run out of objects, the Enemy Pool calls to the Enemy Factory, so this class create a new Enemy for the pool.
+/// </summary>
 
-[System.Serializable]
-public class Pool
+public class EnemyPool
 {
-    public string tag;
-    public GameObject prefab;
-    public int size;
-}
+    private string[] objects;
+    private List<GameObject>[] pooledObjects;
+    private int[] amountToBuffer;
+    private int defaultBufferAmount = 5;
+    private GameObject containerObject;
+    private EnemyConfiguration enemyConfig;
 
-
-public class EnemyPool : MonoBehaviour
-{
-    public List<Pool> pools;
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
-
-
-    /*private void Start()
+    public EnemyPool(EnemyConfiguration _enemyConfiguration, int _defaultBufferAmount)
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        EnemyFactory enemyFactory = new EnemyFactory(Object.Instantiate(_enemyConfiguration));
+        ServiceLocator.RegisterService(enemyFactory);
 
-        foreach (Pool pool in pools)
+        enemyConfig = _enemyConfiguration;
+        defaultBufferAmount = _defaultBufferAmount;
+    }
+
+    public void Init()
+    {        
+        RegysterEnemyTypes();
+        CreateDefaultObjects();
+    }
+
+    
+    public GameObject PullObject(string _objectType)
+    {
+        bool onlyPooled = false;
+
+        for (int i = 0; i < objects.Length; i++)
         {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+            string prefab = objects[i];
 
-            for (int i = 0; i < pool.size; i++)
+            if (prefab == _objectType)
             {
-                GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
+                if (pooledObjects[i].Count > 0)
+                {
+                    GameObject pooledObject = pooledObjects[i][0];
+                    pooledObject.SetActive(true);
+                    pooledObject.transform.parent = null;
+
+                    pooledObjects[i].Remove(pooledObject);
+
+                    return pooledObject;
+                }
+                else if (!onlyPooled)
+                {
+                    Enemy enemy = ServiceLocator.GetService<EnemyFactory>().Create(objects[i]);
+                    return enemy.gameObject;
+                }
+
+                break;
+            }
+        }
+
+        return null;
+    }
+
+    public void AddToPool(GameObject _obj)
+    {
+        for (int i = 0; i < objects.Length; i++)
+        {
+            if (objects[i] == _obj.name)
+            {
+                _obj.SetActive(false);
+                _obj.transform.parent = containerObject.transform;
+                pooledObjects[i].Add(_obj);
+                return;
+            }
+        }
+
+        Object.Destroy(_obj);
+    }
+
+
+
+    private void RegysterEnemyTypes()
+    {
+        int amountOfTypes = enemyConfig.enemies.Length;
+        objects = new string[amountOfTypes];
+        amountToBuffer = new int[amountOfTypes];
+
+        for (int i = 0; i < enemyConfig.enemies.Length; i++)
+        {
+            objects[i] = enemyConfig.enemies[i].ID;
+            amountToBuffer[i] = defaultBufferAmount;
+        }
+    }
+
+
+    private void CreateDefaultObjects()
+    {
+        containerObject = new GameObject("EnemyPool");
+        pooledObjects = new List<GameObject>[objects.Length];
+
+        int i = 0;
+
+        foreach (string obj in objects)
+        {
+            pooledObjects[i] = new List<GameObject>();
+            int bufferAmount;
+
+            if (i < amountToBuffer.Length)
+            {
+                bufferAmount = amountToBuffer[i];
+            }
+            else
+            {
+                bufferAmount = defaultBufferAmount;
             }
 
-            poolDictionary.Add(pool.tag, objectPool);
+            for (int n = 0; n < bufferAmount; n++)
+            {
+                Enemy newObj = ServiceLocator.GetService<EnemyFactory>().Create(obj);
+                newObj.gameObject.name = obj;
+                AddToPool(newObj.gameObject);
+            }
+
+            i++;
         }
-
-    }*/
-
-
-
-    public GameObject SpawnFromPool(string tag, Transform _origin, Transform _objective)
-    {
-        if (!poolDictionary.ContainsKey(tag))
-        {
-            Debug.LogWarning("Pool with tag" + tag + "doesn't exist");
-            return null;
-        }
-
-        GameObject objectToSpawn = poolDictionary[tag].Dequeue();
-        objectToSpawn.transform.position = _origin.position;
-        objectToSpawn.transform.rotation = _origin.rotation;
-
-        objectToSpawn.SetActive(true);
-
-        objectToSpawn.GetComponent<Enemy>().Init( _origin, _objective);
-
-        poolDictionary[tag].Enqueue(objectToSpawn);
-
-        return objectToSpawn;
     }
 
 

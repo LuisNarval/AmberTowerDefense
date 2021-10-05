@@ -7,10 +7,10 @@ public class WaveSystem : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            EventBus.Publish(GameEvent.SPAWN);
-        }*/
+            EventBus.Publish(GameEvent.STARTGAME);
+        }
     }
 
 
