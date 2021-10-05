@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
-/// This is the prototype for an enemy implementation
+/// This is the implementation for an enemy spider
+/// The class inherits from Enemy
 /// </summary>
 
-public class PrototypeEnemie : Enemy
-{    
+public class Spider : Enemy
+{
     public override void Search()
     {
 

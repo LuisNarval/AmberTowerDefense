@@ -9,24 +9,43 @@ using UnityEngine.AI;
 /// </summary>
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] protected NavMeshAgent navMeshAgent;
     [SerializeField] protected Transform destination;
+    
+    [SerializeField] protected NavMeshAgent navMeshAgent;
+    [SerializeField] protected Animator animator;
 
     private void Awake()
     {
         Init();
     }
 
-    public abstract void Init();
+    public void Init()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
-    public abstract void Move();
+        Move();
+    }
+
+    public void Move()
+    {
+        navMeshAgent.destination = destination.position;
+        animator.SetBool("IsMoving", true);
+    }
+
+    public void Stop()
+    {
+        navMeshAgent.destination = destination.position;
+        animator.SetBool("IsMove", false);
+    }
 
     public abstract void Search();
 
     public abstract void Atack();
 
-    public abstract void ReceiveDamage();
+    public abstract void TakeDamage();
 
 }
