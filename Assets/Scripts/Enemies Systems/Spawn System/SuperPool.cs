@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LuisPool : MonoBehaviour
+public class SuperPool : MonoBehaviour
 {
-    public GameObject[] objects;
+    public string[] objects;
 
     public List<GameObject>[] pooledObjects;
 
@@ -14,14 +14,16 @@ public class LuisPool : MonoBehaviour
 
     protected GameObject containerObject;
 
-    private void Start()
+    public void Init()
     {
-        containerObject = new GameObject("LuisPool");
+        Debug.Log("SUPER INIT");
+
+        containerObject = new GameObject("SuperPool");
         pooledObjects = new List<GameObject>[objects.Length];
 
         int i = 0;
 
-        foreach(GameObject obj in objects)
+        foreach (string obj in objects)
         {
             pooledObjects[i] = new List<GameObject>();
             int bufferAmount;
@@ -36,11 +38,11 @@ public class LuisPool : MonoBehaviour
             }
 
 
-            for(int n= 0; n< bufferAmount; n++)
+            for (int n = 0; n < bufferAmount; n++)
             {
-                GameObject newObj = Instantiate(obj) as GameObject;
-                newObj.name = obj.name;
-                PoolObject(newObj);
+                Enemy newObj = ServiceLocator.GetService<EnemyFactory>().Create(obj);
+                newObj.gameObject.name = obj;
+                PoolObject(newObj.gameObject);
             }
 
             i++;
@@ -54,9 +56,9 @@ public class LuisPool : MonoBehaviour
 
         for (int i = 0; i < objects.Length; i++)
         {
-            GameObject prefab = objects[i];
+            string prefab = objects[i];
 
-            if (prefab.name == objectType)
+            if (prefab == objectType)
             {
                 if (pooledObjects[i].Count > 0)
                 {
@@ -70,7 +72,8 @@ public class LuisPool : MonoBehaviour
                 }
                 else if (!onlyPooled)
                 {
-                    return Instantiate(objects[i]) as GameObject;
+                    Enemy enemy = ServiceLocator.GetService<EnemyFactory>().Create(objects[i]);
+                    return enemy.gameObject;
                 }
 
                 break;
@@ -84,7 +87,7 @@ public class LuisPool : MonoBehaviour
     {
         for (int i = 0; i < objects.Length; i++)
         {
-            if (objects[i].name == obj.name)
+            if (objects[i] == obj.name)
             {
                 obj.SetActive(false);
                 obj.transform.parent = containerObject.transform;
@@ -95,5 +98,6 @@ public class LuisPool : MonoBehaviour
 
         Destroy(obj);
     }
+
 
 }

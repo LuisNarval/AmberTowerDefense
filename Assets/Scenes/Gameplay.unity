@@ -170,7 +170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &49261209
 Transform:
   m_ObjectHideFlags: 0
@@ -437,7 +437,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 446096079}
-  - component: {fileID: 446096081}
   - component: {fileID: 446096080}
   m_Layer: 0
   m_Name: LuisPool
@@ -475,27 +474,8 @@ MonoBehaviour:
   objects:
   - {fileID: 1782877332334150105, guid: eb101a6e2dbc7634586d0d11f45858d5, type: 3}
   - {fileID: 1978536475730407450, guid: 5690e09d4d652df469099d7e1cec023f, type: 3}
-  amountToBuffer: 0400000004000000
+  amountToBuffer: 0300000003000000
   defaultBufferAmount: 3
---- !u!114 &446096081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446096078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb27b3cba01e441429d993386b1768c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pools:
-  - tag: Spider
-    prefab: {fileID: 1782877332334150105, guid: eb101a6e2dbc7634586d0d11f45858d5, type: 3}
-    size: 5
-  - tag: Prototype
-    prefab: {fileID: 1978536475730407450, guid: 5690e09d4d652df469099d7e1cec023f, type: 3}
-    size: 5
 --- !u!1 &672551010
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +633,7 @@ Transform:
   - {fileID: 1608000837}
   - {fileID: 49261209}
   - {fileID: 446096079}
+  - {fileID: 1887328824}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -762,6 +743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPool: {fileID: 49261210}
+  luisPool: {fileID: 446096080}
+  superPool: {fileID: 1887328825}
   enemyConfiguration: {fileID: 11400000, guid: 7a884e7537b155f4e836604a00bdda82, type: 2}
   castle: {fileID: 1509169224}
   spiderStartPosition: {fileID: 86205511}
@@ -911,6 +894,54 @@ Transform:
   m_Father: {fileID: 1795516521}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1887328823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1887328824}
+  - component: {fileID: 1887328825}
+  m_Layer: 0
+  m_Name: SuperPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1887328824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887328823}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 939486604}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1887328825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887328823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9989e3f40a5c99f44b09f20048021610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objects:
+  - Spider
+  - Prototype
+  amountToBuffer: 
+  defaultBufferAmount: 2
 --- !u!1 &1941374579
 GameObject:
   m_ObjectHideFlags: 0

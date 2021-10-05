@@ -6,6 +6,8 @@ public class SpawnSystem : MonoBehaviour
 {
     [SerializeField] private EnemyPool enemyPool;
     [SerializeField] private LuisPool luisPool;
+    [SerializeField] private SuperPool superPool;
+
     [SerializeField] private EnemyConfiguration enemyConfiguration;
 
     [SerializeField] private Transform castle;
@@ -51,39 +53,46 @@ public class SpawnSystem : MonoBehaviour
         {
             Debug.Log("Prototype!");
             enemyPool.SpawnFromPool("Prototype", prototypeStartPosition, castle);
-        }*/
+        }
 
+        */
 
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        LuisInput();
+        SuperInput();
+    }
+
+    void LuisInput()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
         {
             Debug.Log("Luis Spider!");
             GameObject spider = luisPool.PullObject("Spider");
             spider.GetComponent<Enemy>().Init(spiderStartPosition, castle);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             Debug.Log("Luis Prototype!");
             GameObject prototype = luisPool.PullObject("PrototypeEnemy");
-            prototype.GetComponent<Enemy>().Init(spiderStartPosition, castle);
+            prototype.GetComponent<Enemy>().Init(prototypeStartPosition, castle);
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
             foreach (object o in objs)
             {
                 GameObject obj = (GameObject)o;
 
-                if(obj.gameObject.GetComponent<Enemy>() != null)
+                if (obj.gameObject.GetComponent<Spider>() != null)
                 {
                     luisPool.PoolObject(obj);
                 }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
             foreach (object o in objs)
@@ -96,7 +105,63 @@ public class SpawnSystem : MonoBehaviour
                 }
             }
         }
-
+        
     }
+
+
+    void SuperInput()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            superPool.Init();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Super Spider!");
+            GameObject spider = superPool.PullObject("Spider");
+            spider.GetComponent<Enemy>().Init(spiderStartPosition, castle);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Debug.Log("Super Prototype!");
+            GameObject prototype = superPool.PullObject("Prototype");
+            prototype.GetComponent<Enemy>().Init(prototypeStartPosition, castle);
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
+            foreach (object o in objs)
+            {
+                GameObject obj = (GameObject)o;
+
+                if (obj.gameObject.GetComponent<Spider>() != null)
+                {
+                    superPool.PoolObject(obj);
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
+            foreach (object o in objs)
+            {
+                GameObject obj = (GameObject)o;
+
+                if (obj.gameObject.GetComponent<PrototypeEnemie>() != null)
+                {
+                    superPool.PoolObject(obj);
+                }
+            }
+        }
+    }
+
+
+
 
 }
