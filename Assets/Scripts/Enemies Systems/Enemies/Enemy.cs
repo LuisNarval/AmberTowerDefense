@@ -20,16 +20,27 @@ public abstract class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+
     }
 
-    public void Init()
+    private void OnDisable()
+    {
+        ResetEnemy();
+    }
+
+    public void Init(Transform _startPosition, Transform _destination)
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        destination = this.transform;
+
+        this.transform.position = _startPosition.position;
+        this.transform.rotation = _startPosition.rotation;
+        destination = _destination;
+
         Move();
     }
+
+
 
     public void Move()
     {
@@ -41,6 +52,11 @@ public abstract class Enemy : MonoBehaviour
     {
         navMeshAgent.destination = destination.position;
         animator.SetBool("IsMove", false);
+    }
+
+    public void ResetEnemy()
+    {
+        Debug.Log("Enemigo Apagado");
     }
 
     public abstract void Search();
