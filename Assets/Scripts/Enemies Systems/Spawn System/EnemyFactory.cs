@@ -1,42 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// This is the Enemy Factory Class, it uses the Factory Method Design Pattern.
 /// The objetive of this class is to create the asked Enemy, no matter what type it is.
-/// It uses an Enemy list, a dictionary & a string ID to keep control of all types of enemies in the project. 
+/// It uses an Scriptable Object named Enemy Configuration to keep control of all types of enemies in the project. 
+/// Since the Enemy Factory don´t need to use Monobehaviour, you can call this class from the Service Locator.
 /// </summary>
 
-public class EnemyFactory : MonoBehaviour
+public class EnemyFactory
 {
-    [SerializeField] private Enemy[] enemies;
+    private EnemyConfiguration enemyConfiguration;
 
-    private Dictionary<string, Enemy> idToEnemy;
-
-
-    private void Awake()
+    public EnemyFactory(EnemyConfiguration _enemyConfiguration)
     {
-        idToEnemy = new Dictionary<string, Enemy>();
-
-        foreach(var enemy in enemies)
-        {
-            idToEnemy.Add(enemy.ID, enemy);
-        }
+        enemyConfiguration = _enemyConfiguration;
     }
-
 
     public Enemy Create(string ID)
     {
-        if(!idToEnemy.TryGetValue(ID, out var enemy))
-        {
-            throw new Exception("Enemy with ID {ID} does not exist");
-        }
-
-        return Instantiate(enemy);
+        var enemy = enemyConfiguration.GetEnemyPrefabByID(ID);        
+        return Object.Instantiate(enemy);
     }
-
-
 
 }

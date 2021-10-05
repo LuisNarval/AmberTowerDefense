@@ -5,11 +5,14 @@ using UnityEngine;
 public class SpawnSystem : MonoBehaviour
 {
     [SerializeField] private EnemyPool enemyPool;
-    [SerializeField] private EnemyFactory enemyFactory;
+    [SerializeField] private EnemyConfiguration enemyConfiguration;
 
     public void Awake()
     {
         EventBus.Subscribe(GameEvent.SPAWN, SpawnEnemy);
+
+        EnemyFactory enemyFactory = new EnemyFactory(Instantiate(enemyConfiguration));
+        ServiceLocator.RegisterService(enemyFactory);
     }
 
     public void SpawnEnemy()
@@ -23,12 +26,12 @@ public class SpawnSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            enemyFactory.Create("Spider");
+            ServiceLocator.GetService<EnemyFactory>().Create("Spider");
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            enemyFactory.Create("Prototype");
+            ServiceLocator.GetService<EnemyFactory>().Create("Prototype");
         }
 
     }
