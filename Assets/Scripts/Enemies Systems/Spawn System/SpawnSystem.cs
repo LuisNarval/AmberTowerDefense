@@ -8,12 +8,13 @@ public class SpawnSystem : Singleton<SpawnSystem>
 
     public override void Awake()
     {
-   
+        EventBus.Subscribe("Spawn", SpawnEnemy);
     }
 
     public void SpawnEnemy()
     {
         Instantiate(enemyPool.Pull(),Vector3.zero, Quaternion.identity);
+        Debug.Log("A Spider was Instantiated");
     }
 
 

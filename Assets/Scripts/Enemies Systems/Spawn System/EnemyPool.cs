@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class EnemyPool : Singleton<SpawnSystem>
 {
-
     [SerializeField] private GameObject Spider;
-
 
     public override void Awake()
     {

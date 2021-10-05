@@ -9,7 +9,7 @@ public class WaveSystem : Singleton<WaveSystem>
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            ServiceLocator.Instance.GetServices<SpawnSystem>().SpawnEnemy();
+            EventBus.Publish("Spawn");
         }
     }
 

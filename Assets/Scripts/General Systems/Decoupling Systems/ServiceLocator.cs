@@ -1,40 +1,31 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine.Assertions;
 /// <summary>
 /// The Service Locator is an Decoupling Design Pattern that is quite useful.
-/// The main purpose of this pattern is to serve as a telephone operator that connects all classes. 
+/// The main purpose of this pattern is to serve as a telephone operator that connects all classes that don´t inherit from Monobehaviour. 
 /// If there is a service that is required, the clients won't have to refer to other classes, but will simply have to call 
 /// the Service Locator to find it.
+/// The services have to be registered before they can be used.
+/// This service locator is implementate as an Monostate Class.
 /// </summary>
 
-public class ServiceLocator : Singleton<ServiceLocator>
+public static class ServiceLocator
 {
-    private IDictionary<object, object> Services;
+    private static readonly IDictionary<Type, object> Services = new Dictionary<Type, Object>();
 
-    public override void Awake()
+    public static void RegisterService<T>(T service)
     {
-        base.Awake();
-        FillRegistry();
+        if (!Services.ContainsKey(typeof(T)))
+        {
+            Services[typeof(T)] = service;
+        }
+        else
+        {
+            throw new ApplicationException ("Service already registered");
+        }
     }
 
-    private void FillRegistry()
-    {
-        Services = new Dictionary<object, object>();
-        Services.Add(typeof(SpawnSystem), new SpawnSystem());
-        Services.Add(typeof(WaveSystem), new WaveSystem());
-    }
-
-    /*public void RegisterService<T>(T service)
-    {
-        var type = typeof(T);
-        Assert.IsFalse(Services.ContainsKey(type), "Service already registered");
- 
-        Services.Add(type, service);
-    }*/
-
-
-    public T GetServices<T>()
+    public static T GetService<T>()
     {
         try
         {
@@ -42,8 +33,7 @@ public class ServiceLocator : Singleton<ServiceLocator>
         }
         catch
         {
-            throw new ApplicationException("The requested services is not found");
+            throw new ApplicationException ("Requested service not found.");
         }
     }
-
 }
