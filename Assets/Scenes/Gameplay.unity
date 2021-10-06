@@ -198,10 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyConfiguration: {fileID: 11400000, guid: 7a884e7537b155f4e836604a00bdda82, type: 2}
-  enemyPoolSize: 10
-  destiny: {fileID: 0}
-  spiderOrigin: {fileID: 0}
-  prototypeOrigin: {fileID: 0}
+  enemiesToSpawn: 0
 --- !u!1 &736137479
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382395666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -34.6}
+  m_LocalPosition: {x: 0, y: 0, z: 2.3}
   m_LocalScale: {x: 76.926285, y: 10.710433, z: 11.445648}
   m_Children: []
   m_Father: {fileID: 367426239}

@@ -14,6 +14,7 @@ using UnityEngine.AI;
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] public string ID;
+    [SerializeField] public bool isActive;
 
     [SerializeField] protected Transform destination;
     [SerializeField] protected Transform origin;
@@ -28,12 +29,12 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-
+        isActive = true;
     }
 
     private void OnDisable()
     {
-
+        isActive = false;
     }
 
     public void Init(Transform _startPosition, Transform _destination)

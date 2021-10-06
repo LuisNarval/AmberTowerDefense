@@ -14,12 +14,14 @@ public class EnemyPool
 {
     private string[] objects;
     private List<GameObject>[] pooledObjects;
+    
     private int[] amountToBuffer;
     private int defaultBufferAmount = 5;
     private GameObject containerObject;
-    private EnemyConfiguration enemyConfig;
 
+    private EnemyConfiguration enemyConfig;
     private EnemyFactory enemyFactory;
+
     public EnemyPool(EnemyConfiguration _enemyConfiguration, int _defaultBufferAmount)
     {
         enemyFactory = new EnemyFactory(Object.Instantiate(_enemyConfiguration));   
@@ -83,7 +85,6 @@ public class EnemyPool
 
         Object.Destroy(_obj);
     }
-
 
 
     private void RegysterEnemyTypes()

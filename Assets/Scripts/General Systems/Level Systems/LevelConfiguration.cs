@@ -26,6 +26,10 @@ public class Wave{
 [CreateAssetMenu(menuName = "Amber/Level Configuration")]
 public class LevelConfiguration : ScriptableObject
 {
+    [Tooltip("The Level Name. This is optional")]
     [SerializeField] public string levelName;
+    [Tooltip("The recommended Enemy Pool Size for this level")]
+    public int poolSize = 10;
+    [Tooltip("You can edit the number of waves, duration & the enemy rate per wave")]
     [SerializeField] public Wave[] waves;
 }
