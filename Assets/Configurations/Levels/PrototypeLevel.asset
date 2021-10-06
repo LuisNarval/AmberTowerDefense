@@ -15,9 +15,11 @@ MonoBehaviour:
   levelName: PrototypeLevel
   poolSize: 10
   waves:
-  - WaveDuration: 15
-    WaveEnemies: 5
+  - WaveDuration: 30
+    WaveEnemies: 20
     EnemyRate:
+    - 1
+    - 1
     - 1
     WaveEnded: 0
   - WaveDuration: 15
