@@ -6,10 +6,6 @@ public class SpawnSystem : MonoBehaviour
 {
     [SerializeField] private EnemyConfiguration enemyConfiguration;
 
-    [SerializeField] private Transform castle;
-    [SerializeField] private Transform spiderStartPosition;
-    [SerializeField] private Transform prototypeStartPosition;
-
     public void Awake()
     {
         EventBus.Subscribe(GameEvent.STARTGAME,InitPool);
@@ -22,54 +18,10 @@ public class SpawnSystem : MonoBehaviour
     {
         ServiceLocator.GetService<EnemyPool>().Init();
     }
-
-    private void Update()
+    public void SpawnEnemy(string _type, Transform _origin, Transform _destiny)
     {
-        SuperInput();
+        GameObject spawn = ServiceLocator.GetService<EnemyPool>().PullObject(_type);
+        spawn.GetComponent<Enemy>().Init(_origin, _destiny);
     }
-    void SuperInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GameObject spider = ServiceLocator.GetService<EnemyPool>().PullObject("Spider");
-            spider.GetComponent<Enemy>().Init(spiderStartPosition, castle);
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            GameObject prototype = ServiceLocator.GetService<EnemyPool>().PullObject("Prototype");
-            prototype.GetComponent<Enemy>().Init(prototypeStartPosition, castle);
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
-            foreach (object o in objs)
-            {
-                GameObject obj = (GameObject)o;
-
-                if (obj.gameObject.GetComponent<Spider>() != null)
-                {
-                    ServiceLocator.GetService<EnemyPool>().AddToPool(obj);
-                }
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
-            foreach (object o in objs)
-            {
-                GameObject obj = (GameObject)o;
-
-                if (obj.gameObject.GetComponent<PrototypeEnemie>() != null)
-                {
-                    ServiceLocator.GetService<EnemyPool>().AddToPool(obj);
-                }
-            }
-        }
-    }
-
 
 }

@@ -19,10 +19,10 @@ public class EnemyPool
     private GameObject containerObject;
     private EnemyConfiguration enemyConfig;
 
+    private EnemyFactory enemyFactory;
     public EnemyPool(EnemyConfiguration _enemyConfiguration, int _defaultBufferAmount)
     {
-        EnemyFactory enemyFactory = new EnemyFactory(Object.Instantiate(_enemyConfiguration));
-        ServiceLocator.RegisterService(enemyFactory);
+        enemyFactory = new EnemyFactory(Object.Instantiate(_enemyConfiguration));   
 
         enemyConfig = _enemyConfiguration;
         defaultBufferAmount = _defaultBufferAmount;
@@ -57,7 +57,7 @@ public class EnemyPool
                 }
                 else if (!onlyPooled)
                 {
-                    Enemy enemy = ServiceLocator.GetService<EnemyFactory>().Create(objects[i]);
+                    Enemy enemy = enemyFactory.Create(objects[i]);
                     return enemy.gameObject;
                 }
 
@@ -123,7 +123,7 @@ public class EnemyPool
 
             for (int n = 0; n < bufferAmount; n++)
             {
-                Enemy newObj = ServiceLocator.GetService<EnemyFactory>().Create(obj);
+                Enemy newObj = enemyFactory.Create(obj);
                 newObj.gameObject.name = obj;
                 AddToPool(newObj.gameObject);
             }

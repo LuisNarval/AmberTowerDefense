@@ -422,6 +422,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b09a269f31ba0c46a5c9b3af90266fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnSystem: {fileID: 1608000838}
+  destiny: {fileID: 1509169224}
+  spiderOrigin: {fileID: 1941374580}
+  prototypeOrigin: {fileID: 22715111}
 --- !u!1 &736137479
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,9 +742,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyConfiguration: {fileID: 11400000, guid: 7a884e7537b155f4e836604a00bdda82, type: 2}
-  castle: {fileID: 1509169224}
-  spiderStartPosition: {fileID: 86205511}
-  prototypeStartPosition: {fileID: 1941374580}
 --- !u!1 &1756734287
 GameObject:
   m_ObjectHideFlags: 0
