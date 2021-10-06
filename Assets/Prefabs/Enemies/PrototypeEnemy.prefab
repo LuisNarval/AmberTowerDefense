@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 213841006803490250}
   - component: {fileID: 3515526479019306679}
   - component: {fileID: 1978536475730407448}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PrototypeEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: Prototype
+  isActive: 0
   destination: {fileID: 0}
   origin: {fileID: 0}
   navMeshAgent: {fileID: 0}
