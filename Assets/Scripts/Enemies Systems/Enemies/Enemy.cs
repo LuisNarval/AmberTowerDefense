@@ -10,54 +10,75 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] public string ID;
 
-    [SerializeField] protected Transform destination;   
+    [SerializeField] protected Transform destination;
+    [SerializeField] protected Transform origin;
     [SerializeField] protected NavMeshAgent navMeshAgent;
     [SerializeField] protected Animator animator;
 
     private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
     {
 
     }
 
     private void OnDisable()
     {
-        ResetEnemy();
+
     }
 
     public void Init(Transform _startPosition, Transform _destination)
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-
-        this.transform.position = _startPosition.position;
-        this.transform.rotation = _startPosition.rotation;
+        origin = _startPosition;
         destination = _destination;
-
+        ResetPosition();
         Move();
     }
-
-
 
     public void Move()
     {
         navMeshAgent.destination = destination.position;
+        navMeshAgent.isStopped = false;
         animator.SetBool("IsMoving", true);
     }
 
     public void Stop()
     {
-        navMeshAgent.destination = destination.position;
-        animator.SetBool("IsMove", false);
+        navMeshAgent.isStopped = true;
+        animator.SetBool("IsMoving", false);
     }
 
-    public void ResetEnemy()
+    public void ResetPosition()
     {
-        Debug.Log("Enemigo Apagado");
+        navMeshAgent.Warp(new Vector3(origin.position.x, this.transform.position.y, origin.position.z));
+        this.transform.rotation = origin.rotation;
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DeathZone"))
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        ResetPosition();
+        ServiceLocator.GetService<EnemyPool>().AddToPool(this.gameObject);
+    }
+
+
 
     public abstract void Search();
 

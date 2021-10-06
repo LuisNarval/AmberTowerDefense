@@ -31,14 +31,12 @@ public class SpawnSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("Super Spider!");
             GameObject spider = ServiceLocator.GetService<EnemyPool>().PullObject("Spider");
             spider.GetComponent<Enemy>().Init(spiderStartPosition, castle);
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            Debug.Log("Super Prototype!");
             GameObject prototype = ServiceLocator.GetService<EnemyPool>().PullObject("Prototype");
             prototype.GetComponent<Enemy>().Init(prototypeStartPosition, castle);
         }

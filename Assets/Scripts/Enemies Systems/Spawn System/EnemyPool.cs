@@ -49,7 +49,7 @@ public class EnemyPool
                 {
                     GameObject pooledObject = pooledObjects[i][0];
                     pooledObject.SetActive(true);
-                    pooledObject.transform.parent = null;
+                    //pooledObject.transform.parent = null;
 
                     pooledObjects[i].Remove(pooledObject);
 
