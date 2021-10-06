@@ -49,13 +49,13 @@ public abstract class Enemy : MonoBehaviour
     {
         navMeshAgent.destination = destination.position;
         navMeshAgent.isStopped = false;
-        animator.SetBool("IsMoving", true);
+        animator.SetBool("isMoving", true);
     }
 
     public void Stop()
     {
         navMeshAgent.isStopped = true;
-        animator.SetBool("IsMoving", false);
+        animator.SetBool("isMoving", false);
     }
 
     public void ResetPosition()
