@@ -25,11 +25,6 @@ public class WaveSystem : MonoBehaviour
         {
             EventBus.Publish(GameEvent.STARTGAME);
         }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SpawnSomething();
-        }
     }
 
     private void Init()
@@ -39,16 +34,50 @@ public class WaveSystem : MonoBehaviour
         levelConfiguration = ServiceLocator.GetService<LevelSystem>().GetLevelConfiguration();
 
         spawnSystem = new SpawnSystem(enemyConfiguration, enemyPoolSize);
+
+        StartCoroutine(SendWaves());
     }
 
-    private void SpawnSomething()
+    private void SpawnSomething(int _enemyNumber)
     {
-        int randomEnemy = (int)Random.Range(0.0f, enemyConfiguration.enemies.Length);
         int randomSpawnPosition = (int)Random.Range(0.0f, spawnPositions.Length);
 
-        string enemyName = enemyConfiguration.enemies[randomEnemy].ID; 
+        string enemyName = enemyConfiguration.enemies[_enemyNumber].ID; 
         spawnSystem.SpawnEnemy(enemyName, spawnPositions[randomSpawnPosition], basePosition);
     }
 
+
+    IEnumerator SendWaves()
+    {
+        Wave[] waves = levelConfiguration.waves;
+
+        int totalWaves = waves.Length;
+        int currentWave = 0;
+
+        
+        while (currentWave < totalWaves)
+        {
+            int enemiesForThisWave = waves[currentWave].WaveEnemies;
+            int enemiesSpawned = 0;
+
+            int typesOfEnemies = waves[currentWave].EnemyRate.Length;
+
+            float timeBetweenSpawn = waves[currentWave].WaveDuration/ waves[currentWave].WaveEnemies;
+
+            Debug.Log("Wave number: " + currentWave);
+            while (enemiesSpawned < enemiesForThisWave)
+            {
+                int randomEnemy = (int)Random.Range(0.0f, typesOfEnemies);
+                SpawnSomething(randomEnemy);
+                enemiesSpawned++;
+
+                yield return new WaitForSeconds(timeBetweenSpawn);
+            }
+
+            currentWave++;
+        }
+
+        Debug.Log("WAVES ENDED.");
+    }
 
 }

@@ -11,9 +11,9 @@ using UnityEngine;
 [System.Serializable]
 public class Wave{
     [Tooltip("The wave duration in seconds.")]
-    public float WaveDuration;
+    public int WaveDuration;
     [Tooltip("The number of enemies for this wave")]
-    public float WaveEnemies;
+    public int WaveEnemies;
     [Range(0.0f,1.0f)]
     [Tooltip("How much percentage of this wave will the specific enemy appear")]
     public float[] EnemyRate;
