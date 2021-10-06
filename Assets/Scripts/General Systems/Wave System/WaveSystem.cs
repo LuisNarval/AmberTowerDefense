@@ -7,15 +7,14 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private EnemyConfiguration enemyConfiguration;
     [SerializeField] private int enemyPoolSize = 10;
 
-    [SerializeField] private Transform destiny;
-    [SerializeField] private Transform spiderOrigin;
-    [SerializeField] private Transform prototypeOrigin;
-
+    private Transform basePosition;
+    private Transform[] spawnPositions;
+    
     private SpawnSystem spawnSystem;
 
     private void Awake()
-    {
-        spawnSystem = new SpawnSystem(enemyConfiguration, enemyPoolSize);
+    {  
+        EventBus.Subscribe(GameEvent.STARTGAME, Init);
     }
 
     private void Update()
@@ -27,14 +26,25 @@ public class WaveSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            spawnSystem.SpawnEnemy("Spider", spiderOrigin, destiny);
+            SpawnSomething();
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            spawnSystem.SpawnEnemy("Prototype", prototypeOrigin, destiny);
-        }
+    private void Init()
+    {
+        basePosition = ServiceLocator.GetService<LevelSystem>().GetBasePosition();
+        spawnPositions = ServiceLocator.GetService<LevelSystem>().GetSpawnPositions();
 
+        spawnSystem = new SpawnSystem(enemyConfiguration, enemyPoolSize);
+    }
+
+    private void SpawnSomething()
+    {
+        int randomEnemy = (int)Random.Range(0.0f, enemyConfiguration.enemies.Length);
+        int randomSpawnPosition = (int)Random.Range(0.0f, spawnPositions.Length);
+
+        string enemyName = enemyConfiguration.enemies[randomEnemy].ID; 
+        spawnSystem.SpawnEnemy(enemyName, spawnPositions[randomSpawnPosition], basePosition);
     }
 
 

@@ -12,16 +12,12 @@ public class SpawnSystem
 {
     public SpawnSystem(EnemyConfiguration _enemyConfiguration, int _defaultPoolSize)
     {
-        EventBus.Subscribe(GameEvent.STARTGAME, InitPool);
-
         EnemyPool enemyPool = new EnemyPool(_enemyConfiguration, _defaultPoolSize);
         ServiceLocator.RegisterService(enemyPool);
+
+        enemyPool.Init();
     }
 
-    public void InitPool()
-    {
-        ServiceLocator.GetService<EnemyPool>().Init();
-    }
     public void SpawnEnemy(string _type, Transform _origin, Transform _destiny)
     {
         GameObject spawn = ServiceLocator.GetService<EnemyPool>().PullObject(_type);
