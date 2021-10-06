@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnSystem : MonoBehaviour
+/// <summary>
+/// This class is the Spawn System.
+/// His responsability is to Turn On the enemies pools & ask them to spawn an enemy each time the Wave System need it.
+/// The Spawn System also register the Enemy Pool to the Service Locator, this enables every enemy that has been spawned to return to 
+/// the pool when they Die.
+/// </summary>
+public class SpawnSystem
 {
-    [SerializeField] private EnemyConfiguration enemyConfiguration;
-
-    public void Awake()
+    public SpawnSystem(EnemyConfiguration _enemyConfiguration, int _defaultPoolSize)
     {
-        EventBus.Subscribe(GameEvent.STARTGAME,InitPool);
+        EventBus.Subscribe(GameEvent.STARTGAME, InitPool);
 
-        EnemyPool enemyPool = new EnemyPool(enemyConfiguration, 5);
+        EnemyPool enemyPool = new EnemyPool(_enemyConfiguration, _defaultPoolSize);
         ServiceLocator.RegisterService(enemyPool);
     }
 

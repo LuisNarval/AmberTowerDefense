@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class WaveSystem : MonoBehaviour
 {
-    [SerializeField] private SpawnSystem spawnSystem;
+    [SerializeField] private EnemyConfiguration enemyConfiguration;
+    [SerializeField] private int enemyPoolSize = 10;
 
     [SerializeField] private Transform destiny;
     [SerializeField] private Transform spiderOrigin;
     [SerializeField] private Transform prototypeOrigin;
+
+    private SpawnSystem spawnSystem;
+
+    private void Awake()
+    {
+        spawnSystem = new SpawnSystem(enemyConfiguration, enemyPoolSize);
+    }
 
     private void Update()
     {
