@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Unity.Collections;
 public class WaveSystem : MonoBehaviour
 {
     [SerializeField] private EnemyConfiguration enemyConfiguration;
     [SerializeField] private int enemyPoolSize = 10;
+
+    [ReadOnly] private LevelConfiguration levelConfiguration;
 
     private Transform basePosition;
     private Transform[] spawnPositions;
@@ -34,6 +36,7 @@ public class WaveSystem : MonoBehaviour
     {
         basePosition = ServiceLocator.GetService<LevelSystem>().GetBasePosition();
         spawnPositions = ServiceLocator.GetService<LevelSystem>().GetSpawnPositions();
+        levelConfiguration = ServiceLocator.GetService<LevelSystem>().GetLevelConfiguration();
 
         spawnSystem = new SpawnSystem(enemyConfiguration, enemyPoolSize);
     }

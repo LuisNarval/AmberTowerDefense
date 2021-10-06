@@ -1074,6 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6cff659182a2a40bdb02aced008636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelConfiguration: {fileID: 11400000, guid: 0a28f0dd150b6ea45923d4f36ff4b7fc, type: 2}
   basePosition: {fileID: 199825716}
   spawnPositions:
   - {fileID: 1941374580}
