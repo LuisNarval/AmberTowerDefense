@@ -18,14 +18,6 @@ public class WaveSystem : MonoBehaviour
         EventBus.Subscribe(GameEvent.STARTGAME, Init);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EventBus.Publish(GameEvent.STARTGAME);
-        }
-    }
-
     private void Init()
     {
         basePosition = ServiceLocator.GetService<LevelSystem>().GetBasePosition();
@@ -38,7 +30,7 @@ public class WaveSystem : MonoBehaviour
         StartCoroutine(SendWaves());
     }
 
-    public int enemiesToSpawn;
+
     IEnumerator SendWaves()
     {
         Wave[] waves = levelConfiguration.waves;
@@ -50,7 +42,7 @@ public class WaveSystem : MonoBehaviour
         while (currentWave < totalWaves)
         {
             float timeBetweenSpawn = waves[currentWave].WaveDuration / waves[currentWave].WaveEnemies;
-            enemiesToSpawn = waves[currentWave].WaveEnemies;
+            int enemiesToSpawn = waves[currentWave].WaveEnemies;
 
             while (enemiesToSpawn > 0)
             {
@@ -70,7 +62,7 @@ public class WaveSystem : MonoBehaviour
             currentWave++;
         }
 
-        EventBus.Publish(GameEvent.GAMEWIN);
+        EventBus.Publish(GameEvent.GAMEWINNED);
     }
 
     

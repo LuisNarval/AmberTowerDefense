@@ -37,7 +37,6 @@ public class PrototypeEnemie : Enemy
 
     public override void DeathFXS()
     {
-        throw new System.NotImplementedException();
     }
 
 

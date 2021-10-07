@@ -35,7 +35,6 @@ public class Phantom : Enemy
 
     public override void DeathFXS()
     {
-        throw new System.NotImplementedException();
     }
 
 }

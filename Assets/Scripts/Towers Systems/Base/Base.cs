@@ -24,7 +24,6 @@ public class Base : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("BASE COLLITION");
 
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
