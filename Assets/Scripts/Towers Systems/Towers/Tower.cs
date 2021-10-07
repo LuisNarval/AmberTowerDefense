@@ -12,6 +12,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Tower : MonoBehaviour
 {
+    [SerializeField] public string bulletID;
     [SerializeField] public float turnSpeed;
     [SerializeField] public float shootRate;
     [SerializeField] public Transform weaponPivot;
