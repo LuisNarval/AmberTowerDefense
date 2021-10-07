@@ -20,15 +20,20 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public string ID;
     [SerializeField] public float Life;
     [SerializeField] public Image lifeBar;
+    [SerializeField] public string bulletID;
+    [SerializeField] public float shootRate;
+    [SerializeField] public Transform shootPivot;
+    [HideInInspector] public Animator animator;
 
+    public Transform target;
     public bool isActive;
+    private bool isAtacking;
 
     protected float currentLife;
     protected Transform destination;
     protected Transform origin;
     protected NavMeshAgent navMeshAgent;
-    protected Animator animator;
-
+    
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -37,11 +42,14 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
+        EventBus.Subscribe(GameEvent.BASEDESTROYED, Stop);
+        isAtacking = false;
         isActive = true;
     }
 
     private void OnDisable()
     {
+        EventBus.Unsubscribe(GameEvent.BASEDESTROYED, Stop);
         isActive = false;
     }
 
@@ -63,8 +71,15 @@ public abstract class Enemy : MonoBehaviour
 
     public void Stop()
     {
-        navMeshAgent.isStopped = true;
-        animator.SetBool("isMoving", false);
+        if (!isAtacking)
+        {
+            navMeshAgent.isStopped = true;
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            StopAtack();
+        }
     }
 
     public void ResetPosition()
@@ -85,6 +100,15 @@ public abstract class Enemy : MonoBehaviour
             other.GetComponent<Bullet>().Hit();
             TakeDamage(other.GetComponent<Bullet>().damage);
         }
+
+        if (other.CompareTag("Base"))
+        {
+            Stop();
+            this.transform.LookAt(other.transform);
+            target = other.transform;
+            isAtacking = true;
+            Atack();
+        }
     }
 
     void TakeDamage(float _damage)
@@ -95,13 +119,14 @@ public abstract class Enemy : MonoBehaviour
         if (currentLife < 0)
             Die();
 
-        hitFXS();
+        HitFXS();
     }
 
     void Die()
     {
         ResetPosition();
-        deathFXS();
+        DeathFXS();
+        StopAtack();
         Invoke("Pool", .2f);
     }
 
@@ -110,9 +135,10 @@ public abstract class Enemy : MonoBehaviour
         ServiceLocator.GetService<EnemyPool>().AddToPool(this.gameObject);
     }
 
-    public abstract void Search();
+
     public abstract void Atack();
-    public abstract void hitFXS();
-    public abstract void deathFXS();
+    public abstract void StopAtack();
+    public abstract void HitFXS();
+    public abstract void DeathFXS();
 
 }

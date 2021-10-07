@@ -21,17 +21,22 @@ public class Base : MonoBehaviour
         currentLife = life;
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("EnemyBullet"))
+        Debug.Log("BASE COLLITION");
+
+        if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            currentLife -= other.GetComponent<Bullet>().damage;
+            currentLife -= collision.gameObject.GetComponent<Bullet>().damage;
             updateLifeBar();
+            ServiceLocator.GetService<BulletPool>().AddToPool(collision.gameObject);
 
             if (currentLife <= 0)
                 destroyBase();
         }
     }
+
 
     void updateLifeBar()
     {
@@ -41,8 +46,8 @@ public class Base : MonoBehaviour
     void destroyBase()
     {
         Instantiate(explotion, this.transform.position, Quaternion.identity);
-        EventBus.Publish(GameEvent.GAMELOOSE);
-        Destroy(this);
+        EventBus.Publish(GameEvent.BASEDESTROYED);
+        Destroy(this.gameObject);
     }
 
 }

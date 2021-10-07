@@ -10,6 +10,8 @@ TagManager:
   - EnemyBullet
   - Tower
   - TowerBullet
+  - FxTemporaire
+  - Base
   layers:
   - Default
   - TransparentFX

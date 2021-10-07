@@ -10,33 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72fc91a1fa2ff974ba95f44dd2d84429, type: 3}
-  m_Name: PrototypeLevel
+  m_Name: BaseTest
   m_EditorClassIdentifier: 
   levelName: PrototypeLevel
   poolSize: 10
   waves:
-  - WaveDuration: 30
-    WaveEnemies: 15
+  - WaveDuration: 15
+    WaveEnemies: 5
     EnemyRate:
     - 1
     - 1
     - 1
-    WaveEnded: 0
-  - WaveDuration: 15
-    WaveEnemies: 7
-    EnemyRate:
-    - 0.7
-    - 0.3
-    WaveEnded: 0
-  - WaveDuration: 15
-    WaveEnemies: 10
-    EnemyRate:
-    - 0.5
-    - 0.5
-    WaveEnded: 0
-  - WaveDuration: 15
-    WaveEnemies: 15
-    EnemyRate:
-    - 0.3
-    - 0.7
     WaveEnded: 0

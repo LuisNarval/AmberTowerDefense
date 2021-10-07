@@ -11,35 +11,33 @@ public class PrototypeEnemie : Enemy
 {
     [SerializeField] public AudioClip screamSFX;
     [SerializeField] public AudioClip explotionSFX;
-    [SerializeField] public GameObject hitFX;
-    [SerializeField] public GameObject deathFX;
 
-    public override void Search()
-    {
-
-    }
-
+    private IEnemyState currentState;
+    private EnemyAtackState AtackState;
     public override void Atack()
     {
-
+        AtackState = gameObject.AddComponent<EnemyAtackState>();
+        currentState = AtackState;
+        currentState.Handle(this);
     }
 
-    public override void hitFXS()
+    public override void StopAtack()
     {
-        hitFX.SetActive(false);
+        if (currentState != null)
+        {
+            currentState.DisHandle();
+        }
+    }
+
+    public override void HitFXS()
+    {
         GetComponent<AudioSource>().clip = screamSFX;
         GetComponent<AudioSource>().Play();
-        hitFX.SetActive(true);
     }
 
-    public override void deathFXS()
+    public override void DeathFXS()
     {
-        deathFX.transform.parent = null;
-        deathFX.SetActive(false);
-        GetComponent<AudioSource>().clip = explotionSFX;
-        GetComponent<AudioSource>().Play();
-        deathFX.transform.position = this.transform.position;
-        deathFX.SetActive(true);
+        throw new System.NotImplementedException();
     }
 
 
