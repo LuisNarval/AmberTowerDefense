@@ -12,6 +12,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Tower : MonoBehaviour
 {
+    [SerializeField] public string ID;
     [SerializeField] public string bulletID;
     [SerializeField] public float turnSpeed;
     [SerializeField] public float shootRate;
@@ -22,6 +23,7 @@ public abstract class Tower : MonoBehaviour
     private ITowerState currentState;
     private AtackTowerState AtackState;
     private SearchTowerState SearchState;
+    private Transform position;
 
     public void Awake()
     {
@@ -32,6 +34,11 @@ public abstract class Tower : MonoBehaviour
     private void OnEnable()
     {
         Init();
+    }
+
+    public void SetInLand(Transform _position)
+    {
+        position = _position;
     }
 
     public void Init()

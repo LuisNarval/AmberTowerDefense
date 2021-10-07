@@ -15,16 +15,23 @@ public class BulletSpawnSystem : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+    }
+
+
+    private void Start()
+    {
+        EventBus.Subscribe(GameEvent.STARTGAME, Init);
     }
 
     void Init()
     {
+        Debug.Log("Wake Spawn Bullet");
         InitPool(bulletConfiguration, 20);
     }
 
     public void InitPool(BulletConfiguration _bulletConfiguration, int _defaultPoolSize)
     {
+        Debug.Log("InitPool");
         BulletPool bulletPool = new BulletPool(_bulletConfiguration, _defaultPoolSize);
         ServiceLocator.RegisterService(bulletPool);
 

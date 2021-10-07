@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1a3fdd25b864b4c9ce900a3de22b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: CannonTower
   bulletID: CannonBullet
   turnSpeed: 50
   shootRate: 1
