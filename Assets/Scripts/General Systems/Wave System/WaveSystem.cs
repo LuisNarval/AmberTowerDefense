@@ -70,7 +70,7 @@ public class WaveSystem : MonoBehaviour
             currentWave++;
         }
 
-        Debug.Log("WAVES ENDED.");
+        EventBus.Publish(GameEvent.GAMEWIN);
     }
 
     
