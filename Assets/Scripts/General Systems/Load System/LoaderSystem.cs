@@ -65,14 +65,12 @@ public class LoaderSystem : MonoBehaviour
             yield return null;
         }
 
-        AsyncOperation asyncUnLoad = SceneManager.UnloadSceneAsync(sceneConfiguration.Level[1].Scene[0].name);
-        yield return asyncUnLoad.isDone;
-
-        yield return new WaitForSeconds(2.0f);
         foreach (var operation in operations)
         {
             operation.allowSceneActivation = true;
         }
+
+        SceneManager.UnloadSceneAsync(1);
 
     }
 

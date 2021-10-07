@@ -2180,7 +2180,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   target: {fileID: 0}
   isActive: 0
-  screamSFX: {fileID: 8300000, guid: cfe59ba6771b1e849b307b4a541ad798, type: 3}
+  screamSFX: {fileID: 8300000, guid: 81ec901bf4004114b9f13d455251778c, type: 3}
   explotionSFX: {fileID: 8300000, guid: cfe59ba6771b1e849b307b4a541ad798, type: 3}
 --- !u!1 &1782877332334150107
 GameObject:

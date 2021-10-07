@@ -15,7 +15,12 @@ public class BulletSpawnSystem : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+    }
+
+
+    private void Start()
+    {
+        EventBus.Subscribe(GameEvent.STARTGAME, Init);
     }
 
     void Init()
