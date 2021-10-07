@@ -16,7 +16,7 @@ MonoBehaviour:
   poolSize: 10
   waves:
   - WaveDuration: 30
-    WaveEnemies: 20
+    WaveEnemies: 30
     EnemyRate:
     - 1
     - 1
