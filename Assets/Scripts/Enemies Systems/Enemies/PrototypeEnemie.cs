@@ -8,7 +8,12 @@ using UnityEngine.AI;
 /// </summary>
 
 public class PrototypeEnemie : Enemy
-{    
+{
+    [SerializeField] public AudioClip screamSFX;
+    [SerializeField] public AudioClip explotionSFX;
+    [SerializeField] public GameObject hitFX;
+    [SerializeField] public GameObject deathFX;
+
     public override void Search()
     {
 
@@ -17,6 +22,24 @@ public class PrototypeEnemie : Enemy
     public override void Atack()
     {
 
+    }
+
+    public override void hitFXS()
+    {
+        hitFX.SetActive(false);
+        GetComponent<AudioSource>().clip = screamSFX;
+        GetComponent<AudioSource>().Play();
+        hitFX.SetActive(true);
+    }
+
+    public override void deathFXS()
+    {
+        deathFX.transform.parent = null;
+        deathFX.SetActive(false);
+        GetComponent<AudioSource>().clip = explotionSFX;
+        GetComponent<AudioSource>().Play();
+        deathFX.transform.position = this.transform.position;
+        deathFX.SetActive(true);
     }
 
 

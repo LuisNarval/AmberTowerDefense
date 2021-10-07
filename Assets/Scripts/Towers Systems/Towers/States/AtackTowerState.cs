@@ -28,7 +28,6 @@ public class AtackTowerState : MonoBehaviour, ITowerState
 
     IEnumerator Aim()
     {
-        Debug.Log("NEW COMER: " + tower.currentObjective.name );
         float timeToAim = 0.0f;
 
         Quaternion originalRotation = tower.weaponPivot.transform.rotation;
@@ -36,7 +35,6 @@ public class AtackTowerState : MonoBehaviour, ITowerState
         
         while (timeToAim < 1.0f)
         {
-            Debug.Log("Aiming to: " + tower.currentObjective.name + " time: " + timeToAim);
             yield return new WaitForEndOfFrame();
             tower.weaponPivot.transform.LookAt(tower.currentObjective);
             lookAtRotation = tower.weaponPivot.transform.rotation;
@@ -45,12 +43,10 @@ public class AtackTowerState : MonoBehaviour, ITowerState
             timeToAim += Time.deltaTime * 2;
         }
 
-        Debug.Log("FINISH AIMING TO: " + tower.currentObjective.name);
         StartCoroutine("Shoot");
 
         while (true)
         {
-            Debug.Log("Look At: " + tower.currentObjective.name);
             tower.weaponPivot.transform.LookAt(tower.currentObjective);
             yield return new WaitForEndOfFrame();
         }
@@ -59,7 +55,6 @@ public class AtackTowerState : MonoBehaviour, ITowerState
 
     IEnumerator Shoot()
     {
-        Debug.Log("STARTING SHOOTING TO: " + tower.currentObjective.name);
         while (true)
         {
             GameObject bullet = ServiceLocator.GetService<BulletPool>().PullObject("ArrowBullet");
@@ -79,7 +74,6 @@ public class AtackTowerState : MonoBehaviour, ITowerState
             if (other.gameObject == tower.currentObjective.gameObject)
             {
                 StopAllCoroutines();
-                Debug.Log("EXIT : " + tower.currentObjective.name);
                 tower.Search();
             }
         }

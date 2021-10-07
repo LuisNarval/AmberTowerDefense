@@ -14,12 +14,13 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] public string ID;
     [SerializeField] public float Life;
     [SerializeField] public Image lifeBar;
-    
+
     public bool isActive;
 
     protected float currentLife;
@@ -93,11 +94,14 @@ public abstract class Enemy : MonoBehaviour
 
         if (currentLife < 0)
             Die();
+
+        hitFXS();
     }
 
     void Die()
     {
         ResetPosition();
+        deathFXS();
         Invoke("Pool", .2f);
     }
 
@@ -107,8 +111,8 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public abstract void Search();
-
     public abstract void Atack();
-
+    public abstract void hitFXS();
+    public abstract void deathFXS();
 
 }
