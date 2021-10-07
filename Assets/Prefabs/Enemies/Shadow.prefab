@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &303653665375387817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2348792982499630667}
+  m_Layer: 0
+  m_Name: ShootPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2348792982499630667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303653665375387817}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.02, z: 0.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 939840672068042662}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &939840672068002306
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,6 +860,7 @@ Transform:
   - {fileID: 939840672068042708}
   - {fileID: 939840672068042716}
   - {fileID: 939840672068042274}
+  - {fileID: 2348792982499630667}
   - {fileID: 7437152921652251485}
   - {fileID: 5589025445179087133}
   m_Father: {fileID: 0}
@@ -868,7 +899,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1016,11 +1047,14 @@ MonoBehaviour:
   ID: Shadow
   Life: 10
   lifeBar: {fileID: 1706704460530029005}
+  bulletID: ShadowBullet
+  shootRate: 1
+  shootPivot: {fileID: 2348792982499630667}
+  animator: {fileID: 0}
+  target: {fileID: 0}
   isActive: 0
   screamSFX: {fileID: 8300000, guid: 81ec901bf4004114b9f13d455251778c, type: 3}
   explotionSFX: {fileID: 8300000, guid: cfe59ba6771b1e849b307b4a541ad798, type: 3}
-  hitFX: {fileID: 889622219551048738}
-  deathFX: {fileID: 5677724068512639090}
 --- !u!1 &939840672068002696
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,7 +2415,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4904877468782645437, guid: 7e42e3991b215f748a8a694545593b2d, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4904877468782645437, guid: 7e42e3991b215f748a8a694545593b2d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2434,16 +2468,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4904877468782645437, guid: 7e42e3991b215f748a8a694545593b2d, type: 3}
   m_PrefabInstance: {fileID: 684992539339491744}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5677724068512639090 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5137136992651190738, guid: 7e42e3991b215f748a8a694545593b2d, type: 3}
-  m_PrefabInstance: {fileID: 684992539339491744}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &889622219551048738 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 421376441792138626, guid: 7e42e3991b215f748a8a694545593b2d, type: 3}
-  m_PrefabInstance: {fileID: 684992539339491744}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3120465092753809854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2465,7 +2489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5510168805911800547, guid: 8794d1f66220b4c46b5eb49fe8fafe1e, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5510168805911800547, guid: 8794d1f66220b4c46b5eb49fe8fafe1e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2541,6 +2565,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8794d1f66220b4c46b5eb49fe8fafe1e, type: 3}
+--- !u!224 &7437152921652251485 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5510168805911800547, guid: 8794d1f66220b4c46b5eb49fe8fafe1e, type: 3}
+  m_PrefabInstance: {fileID: 3120465092753809854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1706704460530029005 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4386911559716139123, guid: 8794d1f66220b4c46b5eb49fe8fafe1e, type: 3}
@@ -2552,8 +2581,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &7437152921652251485 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5510168805911800547, guid: 8794d1f66220b4c46b5eb49fe8fafe1e, type: 3}
-  m_PrefabInstance: {fileID: 3120465092753809854}
-  m_PrefabAsset: {fileID: 0}

@@ -9,29 +9,32 @@ public class Shadow : Enemy
 {
     [SerializeField] public AudioClip screamSFX;
     [SerializeField] public AudioClip explotionSFX;
-    [SerializeField] public GameObject hitFX;
-    [SerializeField] public GameObject deathFX;
 
-    public override void Search()
-    {
-
-    }
-
+    private IEnemyState currentState;
+    private EnemyAtackState AtackState;
     public override void Atack()
     {
-
+        AtackState = gameObject.AddComponent<EnemyAtackState>();
+        currentState = AtackState;
+        currentState.Handle(this);
     }
 
-    public override void hitFXS()
+    public override void StopAtack()
+    {
+        if (currentState != null)
+        {
+            currentState.DisHandle();
+        }
+    }
+
+    public override void HitFXS()
     {
         GetComponent<AudioSource>().clip = screamSFX;
         GetComponent<AudioSource>().Play();
     }
 
-    public override void deathFXS()
+    public override void DeathFXS()
     {
-        GetComponent<AudioSource>().clip = explotionSFX;
-        GetComponent<AudioSource>().Play();
     }
 
 }
