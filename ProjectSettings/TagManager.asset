@@ -12,6 +12,7 @@ TagManager:
   - TowerBullet
   - FxTemporaire
   - Base
+  - TowerGrid
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - TowerBullet
   - Enemy
   - EnemyBullet
-  - 
+  - TowerBase
   - 
   - 
   - 
