@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92bf11f29b78334fae5d63a7fd1640e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: DragonTower
   bulletID: DragonBullet
   turnSpeed: 50
   shootRate: 1
