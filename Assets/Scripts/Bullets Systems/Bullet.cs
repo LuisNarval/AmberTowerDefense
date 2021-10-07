@@ -14,9 +14,19 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] public float damage;
 
     [SerializeField] protected bool isActive;
+
     [SerializeField] protected Transform origin;
     [SerializeField] protected Transform target;
 
+    private void OnEnable()
+    {
+        EventBus.Subscribe(GameEvent.BASEDESTROYED, Hit);
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Unsubscribe(GameEvent.BASEDESTROYED, Hit);
+    }
     public void Init(Transform _origin, Transform _target)
     {
         origin = _origin;
