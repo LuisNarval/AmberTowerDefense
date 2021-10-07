@@ -10,7 +10,7 @@ public class WaveSystem : MonoBehaviour
     private Transform basePosition;
     private Transform[] spawnPositions;
     
-    private SpawnSystem spawnSystem;
+    private EnemySpawnSystem enemySpawnSystem;
     private int enemyPoolSize;
 
     private void Awake()
@@ -33,7 +33,7 @@ public class WaveSystem : MonoBehaviour
         levelConfiguration = ServiceLocator.GetService<LevelSystem>().GetLevelConfiguration();
         enemyPoolSize = levelConfiguration.poolSize;
 
-        spawnSystem = new SpawnSystem(enemyConfiguration, enemyPoolSize);
+        enemySpawnSystem = new EnemySpawnSystem(enemyConfiguration, enemyPoolSize);
 
         StartCoroutine(SendWaves());
     }
@@ -52,7 +52,6 @@ public class WaveSystem : MonoBehaviour
             float timeBetweenSpawn = waves[currentWave].WaveDuration / waves[currentWave].WaveEnemies;
             enemiesToSpawn = waves[currentWave].WaveEnemies;
 
-            Debug.Log("Wave number: " + currentWave);
             while (enemiesToSpawn > 0)
             {
                 int randomEnemy = GetRandomEnemyByRate(waves[currentWave].EnemyRate);
@@ -62,8 +61,6 @@ public class WaveSystem : MonoBehaviour
 
                 yield return new WaitForSeconds(timeBetweenSpawn);
             }
-
-            Debug.Log("Wave spawn has ended. Waiting for enemies");
 
             while (isAnEnemyInScene())
             {
@@ -83,7 +80,7 @@ public class WaveSystem : MonoBehaviour
         int randomSpawnPosition = (int)Random.Range(0.0f, spawnPositions.Length);
 
         string enemyName = enemyConfiguration.enemies[_enemyNumber].ID;
-        spawnSystem.SpawnEnemy(enemyName, spawnPositions[randomSpawnPosition], basePosition);
+        enemySpawnSystem.SpawnEnemy(enemyName, spawnPositions[randomSpawnPosition], basePosition);
     }
 
     private int GetRandomEnemyByRate(float[] _Rate)

@@ -17,8 +17,4 @@ public class Phantom : Enemy
 
     }
 
-    public override void TakeDamage()
-    {
-
-    }
 }

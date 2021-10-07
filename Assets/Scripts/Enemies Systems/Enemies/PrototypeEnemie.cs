@@ -19,9 +19,5 @@ public class PrototypeEnemie : Enemy
 
     }
 
-    public override void TakeDamage()
-    {
-
-    }
 
 }

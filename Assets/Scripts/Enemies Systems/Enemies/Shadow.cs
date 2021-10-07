@@ -17,9 +17,4 @@ public class Shadow : Enemy
 
     }
 
-    public override void TakeDamage()
-    {
-
-    }
-
 }

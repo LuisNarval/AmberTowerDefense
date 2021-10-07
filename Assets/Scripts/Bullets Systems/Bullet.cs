@@ -22,30 +22,23 @@ public abstract class Bullet : MonoBehaviour
         origin = _origin;
         target = _target;
 
-        ResetPosition();
         isActive = true;
+        ResetPosition();
+        Shoot();
     }
 
-    public void ResetPosition()
+    private void ResetPosition()
     {
         this.transform.position = origin.position;
         this.transform.rotation = origin.rotation;
     }
 
-    private void Update()
-    {
-        if(isActive)
-            Move();
-    }
 
     public void Hit()
     {
-
+        ServiceLocator.GetService<BulletPool>().AddToPool(this.gameObject);
     }
 
 
-    public abstract void Move();
-    public abstract void Aim();
-    public abstract void Fly();
-
+    public abstract void Shoot();
 }

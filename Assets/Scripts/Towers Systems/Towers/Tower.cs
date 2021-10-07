@@ -15,9 +15,9 @@ public abstract class Tower : MonoBehaviour
     [SerializeField] public float turnSpeed;
     [SerializeField] public float shootRate;
     [SerializeField] public Transform weaponPivot;
-    [SerializeField] public Transform currentObjective;
-   
+    [SerializeField] public Transform bulletPivot;
 
+    public Transform currentObjective;
     private ITowerState currentState;
     private AtackTowerState AtackState;
     private SearchTowerState SearchState;
@@ -54,8 +54,6 @@ public abstract class Tower : MonoBehaviour
         if (currentState != null)
         {
             currentState.DisHandle();
-            MonoBehaviour c = currentState as MonoBehaviour;
-            c.enabled = false;
         }
 
         currentState = _towerState;

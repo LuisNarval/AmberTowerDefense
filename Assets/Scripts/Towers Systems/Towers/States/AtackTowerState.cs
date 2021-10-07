@@ -12,11 +12,13 @@ public class AtackTowerState : MonoBehaviour, ITowerState
 {
     Tower tower;
     bool stateActive = false;
+
+
     public void Handle(Tower _tower)
     {
         tower = _tower;
         stateActive = true;
-        StartCoroutine(Aim());
+        StartCoroutine("Aim");
     }
     public void DisHandle()
     {
@@ -26,23 +28,29 @@ public class AtackTowerState : MonoBehaviour, ITowerState
 
     IEnumerator Aim()
     {
-        float timeToLerp = 0.0f;
+        Debug.Log("NEW COMER: " + tower.currentObjective.name );
+        float timeToAim = 0.0f;
 
-        Vector3 direction = tower.currentObjective.position - tower.weaponPivot.transform.position;
-        Quaternion toRotation = Quaternion.LookRotation(direction);
-
-        while (timeToLerp < 1)
-        {
-            yield return new WaitForEndOfFrame();
-            tower.weaponPivot.transform.rotation = Quaternion.Lerp(tower.weaponPivot.transform.rotation, toRotation, timeToLerp);
-
-            timeToLerp += Time.deltaTime * 2.0f;
-        }
+        Quaternion originalRotation = tower.weaponPivot.transform.rotation;
+        Quaternion lookAtRotation;
         
-        StartCoroutine(Shoot());
+        while (timeToAim < 1.0f)
+        {
+            Debug.Log("Aiming to: " + tower.currentObjective.name + " time: " + timeToAim);
+            yield return new WaitForEndOfFrame();
+            tower.weaponPivot.transform.LookAt(tower.currentObjective);
+            lookAtRotation = tower.weaponPivot.transform.rotation;
+
+            tower.weaponPivot.transform.rotation = Quaternion.Lerp(originalRotation, lookAtRotation, timeToAim);
+            timeToAim += Time.deltaTime * 2;
+        }
+
+        Debug.Log("FINISH AIMING TO: " + tower.currentObjective.name);
+        StartCoroutine("Shoot");
 
         while (true)
         {
+            Debug.Log("Look At: " + tower.currentObjective.name);
             tower.weaponPivot.transform.LookAt(tower.currentObjective);
             yield return new WaitForEndOfFrame();
         }
@@ -51,9 +59,12 @@ public class AtackTowerState : MonoBehaviour, ITowerState
 
     IEnumerator Shoot()
     {
+        Debug.Log("STARTING SHOOTING TO: " + tower.currentObjective.name);
         while (true)
         {
-            Debug.Log("Shoot");
+            GameObject bullet = ServiceLocator.GetService<BulletPool>().PullObject("ArrowBullet");
+            bullet.GetComponent<Bullet>().Init(tower.bulletPivot, tower.currentObjective);
+
             yield return new WaitForSeconds(tower.shootRate);
         }
     }
@@ -67,6 +78,8 @@ public class AtackTowerState : MonoBehaviour, ITowerState
         {
             if (other.gameObject == tower.currentObjective.gameObject)
             {
+                StopAllCoroutines();
+                Debug.Log("EXIT : " + tower.currentObjective.name);
                 tower.Search();
             }
         }

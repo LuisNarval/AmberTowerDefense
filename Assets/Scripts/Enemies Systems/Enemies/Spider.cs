@@ -19,9 +19,4 @@ public class Spider : Enemy
 
     }
 
-    public override void TakeDamage()
-    {
-
-    }
-
 }
