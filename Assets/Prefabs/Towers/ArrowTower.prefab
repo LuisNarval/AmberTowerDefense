@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf7e8e74c82b204ca46ae137c573d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: ArrowTower
   bulletID: ArrowBullet
   turnSpeed: 50
   shootRate: 1

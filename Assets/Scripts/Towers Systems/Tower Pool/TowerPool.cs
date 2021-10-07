@@ -3,14 +3,14 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 /// <summary>
-/// This is the Object Pool for the bullets.
+/// This is the Object Pool for the towers.
 /// We are using this Design Pattern so we can improve optimization.
 /// The idea behind this pattern is to recycle the objects that alredy live in the scene instead of constantly intantiate them.
 /// This script can Pull an object from the pool and if is necesary, it can later Return it to the pool.
-/// When we run out of objects, the Bullet Pool calls to the Bullet Factory, so this class create a new Bullet for the pool.
+/// When we run out of objects, the tower Pool calls to the Tower Factory, so this class create a new Tower for the pool.
 /// </summary>
 
-public class BulletPool
+public class TowerPool
 {
     private string[] objects;
     private List<GameObject>[] pooledObjects;
@@ -19,24 +19,20 @@ public class BulletPool
     private int defaultBufferAmount = 5;
     private GameObject containerObject;
 
-    private BulletConfiguration bulletConfig;
-    private BulletFactory bulletFactory;
+    private TowerConfiguration towerConfig;
+    private TowerFactory towerFactory;
 
-    public BulletPool(BulletConfiguration _bulletConfiguration, int _defaultBufferAmount)
+    public TowerPool(TowerConfiguration _towerConfiguration, int _defaultBufferAmount)
     {
-        bulletFactory = new BulletFactory(Object.Instantiate(_bulletConfiguration));
+        towerFactory = new TowerFactory(Object.Instantiate(_towerConfiguration));
 
-        bulletConfig = _bulletConfiguration;
+        towerConfig = _towerConfiguration;
         defaultBufferAmount = _defaultBufferAmount;
-
-        Debug.Log("Default Bullet buffer:" + _defaultBufferAmount);
     }
 
     public void Init()
     {
-        Debug.Log("Created Default Pool Bullet");
-
-        RegysterEnemyTypes();
+        RegysterTowerTypes();
         CreateDefaultObjects();
     }
 
@@ -63,8 +59,8 @@ public class BulletPool
                 }
                 else if (!onlyPooled)
                 {
-                    Bullet bullet = bulletFactory.Create(objects[i]);
-                    return bullet.gameObject;
+                    Tower tower = towerFactory.Create(objects[i]);
+                    return tower.gameObject;
                 }
 
                 break;
@@ -91,15 +87,15 @@ public class BulletPool
     }
 
 
-    private void RegysterEnemyTypes()
+    private void RegysterTowerTypes()
     {
-        int amountOfTypes = bulletConfig.bullets.Length;
+        int amountOfTypes = towerConfig.towers.Length;
         objects = new string[amountOfTypes];
         amountToBuffer = new int[amountOfTypes];
 
-        for (int i = 0; i < bulletConfig.bullets.Length; i++)
+        for (int i = 0; i < towerConfig.towers.Length; i++)
         {
-            objects[i] = bulletConfig.bullets[i].ID;
+            objects[i] = towerConfig.towers[i].ID;
             amountToBuffer[i] = defaultBufferAmount;
         }
     }
@@ -107,9 +103,7 @@ public class BulletPool
 
     private void CreateDefaultObjects()
     {
-        Debug.Log("Created Default Pool");
-
-        containerObject = new GameObject("BulletPool");
+        containerObject = new GameObject("TowerPool");
         pooledObjects = new List<GameObject>[objects.Length];
 
         int i = 0;
@@ -130,7 +124,7 @@ public class BulletPool
 
             for (int n = 0; n < bufferAmount; n++)
             {
-                Bullet newObj = bulletFactory.Create(obj);
+                Tower newObj = towerFactory.Create(obj);
                 newObj.gameObject.name = obj;
                 AddToPool(newObj.gameObject);
             }
@@ -138,5 +132,7 @@ public class BulletPool
             i++;
         }
     }
+
+
 
 }
