@@ -57,7 +57,7 @@ public class AtackTowerState : MonoBehaviour, ITowerState
     {
         while (true)
         {
-            GameObject bullet = ServiceLocator.GetService<BulletPool>().PullObject("ArrowBullet");
+            GameObject bullet = ServiceLocator.GetService<BulletPool>().PullObject(tower.bulletID);
             bullet.GetComponent<Bullet>().Init(tower.bulletPivot, tower.currentObjective);
 
             yield return new WaitForSeconds(tower.shootRate);

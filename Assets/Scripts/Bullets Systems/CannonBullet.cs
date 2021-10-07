@@ -1,12 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// This class is the ShadowBullet
-/// It inherits from the Bullet Class.
-/// This is the bullet that is gonna be used by the Phantom Enemy
+/// This Class is the implementation of the Dragon Bullet
 /// </summary>
-public class ShadowBullet : Bullet
+public class CannonBullet : Bullet
 {
     public override void Shoot()
     {
@@ -27,4 +24,5 @@ public class ShadowBullet : Bullet
             yield return new WaitForEndOfFrame();
         }
     }
+
 }
