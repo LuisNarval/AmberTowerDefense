@@ -9,18 +9,19 @@ using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
 {
-
     [SerializeField] private LayerMask layer;
+    [SerializeField] private CanvasGroup group;
 
-    [SerializeField] GameObject ghost1;
-    [SerializeField] GameObject ghost2;
-    [SerializeField] GameObject ghost3;
+    [SerializeField] GameObject[] ghost;
 
-    private GameObject selectedGhost;
+
+    int towerSelected = 0;
+    Transform towerBase;
 
     private void Awake()
     {
-        selectedGhost = ghost1;
+        group.alpha = 0;
+        group.blocksRaycasts = false;
     }
 
     private void Update()
@@ -31,61 +32,73 @@ public class PlacementSystem : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, layer))
             {
-                Debug.Log ("Hit a : " + hit.collider.gameObject.name);
+                Debug.Log("TAG: " + hit.collider.tag);
+                if (hit.collider.CompareTag("TowerGrid"))
+                {
+                    if (towerBase != null)
+                        towerBase.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
+
+                    towerBase = hit.transform;
+                    towerBase.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.green);
+                    ShowMenu();
+                }
+
+            }
+            else
+            {
+                if (group.alpha > 0)
+                {
+                    //towerBase.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
+                    CloseMenu();
+                }
             }
         }
     }
 
 
-    public void SelectTower1()
+    public void SelectOpcion(int _option)
     {
-        ShowGhost(ghost1);
+        ghost[towerSelected].SetActive(false);
+        towerSelected = _option;
+        ghost[towerSelected].transform.position = towerBase.position;
+        ghost[towerSelected].SetActive(true);
+    }
+    
+    public void CloseMenu()
+    {
+        StartCoroutine(FadeOut(group));
     }
 
-    public void SelectTower2()
+    public void ShowMenu()
     {
-        ShowGhost(ghost2);
+        StartCoroutine(FadeIn(group));
     }
 
-    public void SelectTower3()
+    public void Buy()
     {
-        ShowGhost(ghost3);
-    }
 
-    void ShowGhost(GameObject _ghost)
-    {
-        selectedGhost.SetActive(false);
-        selectedGhost = _ghost;
-        selectedGhost.SetActive(true);
-        //StartCoroutine("FollowMouse");
     }
 
 
 
-
-    IEnumerator FollowMouse()
+    IEnumerator FadeIn(CanvasGroup _group)
     {
-        selectedGhost.SetActive(true);
-
-        Camera cam = Camera.main;
-        while (true)
+        _group.blocksRaycasts = false;
+        while (_group.alpha < 1)
         {
+            _group.alpha += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        _group.blocksRaycasts = true;
+    }
 
-            /*Vector3 mp = Input.mousePosition;
-            Vector3 wp = cam.ScreenToWorldPoint(new Vector3(mp.x, mp.y, cam.nearClipPlane));
-
-            selectedGhost.transform.position = wp;
-            Debug.Log("Mouse Position: " + mp);
-            Debug.Log("Wolrd Position: " + wp);*/
-
-            
-
-
-
+    IEnumerator FadeOut(CanvasGroup _group)
+    {
+        _group.blocksRaycasts = false;
+        while (_group.alpha > 0)
+        {
+            _group.alpha -= Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
     }
-
-
-
 }
