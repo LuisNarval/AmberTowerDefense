@@ -11,7 +11,7 @@ using UnityEngine.Events;
 
 public enum GameEvent 
 {
-    COUNTDOWN, STARTGAME, SPAWN, PAUSE, BASEDESTROYED, GAMEWINNED, RESTART, QUIT
+    COUNTDOWN, STARTGAME, SPAWN, BASEDESTROYED, GAMEWINNED
 }
 
 public class EventBus

@@ -13,7 +13,7 @@ public class WaveSystem : MonoBehaviour
     private EnemySpawnSystem enemySpawnSystem;
     private int enemyPoolSize;
 
-    private void Awake()
+    private void Start()
     {
         EventBus.Subscribe(GameEvent.STARTGAME, Init);
     }

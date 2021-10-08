@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// The placement System is gonna detect the input from the user and will let him put a Tower in the field.
@@ -11,8 +12,11 @@ using UnityEngine;
 public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] TowerConfiguration towerConfiguration;
-    [SerializeField] private CanvasGroup group;
+    [SerializeField] Transform buyPanel;
+    [SerializeField] int[] Prices;
+    [SerializeField] Image[] buttons; 
     [SerializeField] TowerGhost[] ghost;
+
 
     int towerSelected = 0;
     bool follow;
@@ -60,14 +64,28 @@ public class PlacementSystem : MonoBehaviour
 
     public void SelectOpcion(int _option)
     {
-        ghost[towerSelected].gameObject.SetActive(false);
-        towerSelected = _option;
-        ghost[towerSelected].gameObject.SetActive(true);
-        follow = true;
+        if (ServiceLocator.GetService<Bank>().CanRetire(Prices[_option]))
+        {
+            ghost[towerSelected].gameObject.SetActive(false);
+            towerSelected = _option;
+            ghost[towerSelected].gameObject.SetActive(true);
+            follow = true;
+            buttons[_option].color = Color.green;
+        }
+        else
+        {
+            buttons[_option].color = Color.red;
+            StartCoroutine(ShakePanel());
+        }
+
     }
     
     void UnselectOption()
     {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].color = Color.white;
+        }
         ghost[towerSelected].gameObject.SetActive(false);
         follow = false;
     }
@@ -76,8 +94,32 @@ public class PlacementSystem : MonoBehaviour
     {
         UnselectOption();
         _towerGrid.enabled = false;
-        
-        towerSpawnSystem.SpawnTower(towerConfiguration.towers[towerSelected].ID, _towerGrid.transform.position);
+
+        if (ServiceLocator.GetService<Bank>().CanRetire(Prices[towerSelected]))
+        {
+            towerSpawnSystem.SpawnTower(towerConfiguration.towers[towerSelected].ID, _towerGrid.transform.position);
+            ServiceLocator.GetService<Bank>().RetireMoney(Prices[towerSelected]);
+        }
     }
-   
+ 
+    
+    IEnumerator ShakePanel()
+    {
+        float time = 0;
+        float xMove;
+        while (time < 1)
+        {
+            xMove = Mathf.Sin(time*25)*2.5f;
+            buyPanel.transform.Translate(Vector3.right*xMove);    
+            time += Time.deltaTime*2.0f;
+            yield return new WaitForEndOfFrame();
+        }
+        buyPanel.transform.position = Vector3.zero;
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].color = Color.white;
+        }
+    }
+
 }
