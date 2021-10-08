@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3555292377679876772}
   - component: {fileID: 3555292377679876825}
   - component: {fileID: 3555292377679876774}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,10 +92,9 @@ GameObject:
   - component: {fileID: 3555292377706936674}
   - component: {fileID: 3555292377706936679}
   - component: {fileID: 3555292377706936676}
-  - component: {fileID: 5124320814867654619}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cross
-  m_TagString: Untagged
+  m_TagString: TowerGrid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,20 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5124320814867654619
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3555292377706936675}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &3555292378469159250
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +173,8 @@ GameObject:
   - component: {fileID: 3555292378469159253}
   - component: {fileID: 3555292378469159254}
   - component: {fileID: 3555292378469159255}
-  m_Layer: 10
+  - component: {fileID: 1122860739885932670}
+  m_Layer: 0
   m_Name: Grid
   m_TagString: TowerGrid
   m_Icon: {fileID: 0}
@@ -258,6 +244,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1122860739885932670
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3555292378469159250}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &3555292378723731963
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,9 +267,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3555292378723731965}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: TowerPlace
-  m_TagString: TowerGrid
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

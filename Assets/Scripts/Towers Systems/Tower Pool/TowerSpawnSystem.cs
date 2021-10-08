@@ -19,7 +19,7 @@ public class TowerSpawnSystem
         towerPool.Init();
     }
 
-    public void SpawnTower(string _type, Transform _position)
+    public void SpawnTower(string _type, Vector3 _position)
     {
         GameObject spawn = ServiceLocator.GetService<TowerPool>().PullObject(_type);
         spawn.GetComponent<Tower>().SetInLand(_position);

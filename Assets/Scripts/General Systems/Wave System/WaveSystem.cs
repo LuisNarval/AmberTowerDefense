@@ -14,7 +14,7 @@ public class WaveSystem : MonoBehaviour
     private int enemyPoolSize;
 
     private void Awake()
-    {  
+    {
         EventBus.Subscribe(GameEvent.STARTGAME, Init);
     }
 
