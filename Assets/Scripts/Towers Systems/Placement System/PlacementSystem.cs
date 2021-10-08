@@ -4,7 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// The placement System is gonna detect the input from the user and will let him put a Tower in the field.
-/// First it's gonna show a Ghost, and when the user clics on a grid, the Placement System will call to the Towers Pools. 
+/// First it's gonna show a Ghost, and when the user clics on a grid, the Placement System will call to the Towers Pools
+/// so a new Tower is pull from the pool & it´s placed in the grid.
 /// </summary>
 
 public class PlacementSystem : MonoBehaviour
@@ -18,9 +19,14 @@ public class PlacementSystem : MonoBehaviour
 
     private TowerSpawnSystem towerSpawnSystem;
 
-    private void Awake()
+    private void Start()
     {
-        towerSpawnSystem = new TowerSpawnSystem(towerConfiguration, 5);    
+        Invoke("CreatePool", 2.0f);
+    }
+
+    void CreatePool()
+    {
+        towerSpawnSystem = new TowerSpawnSystem(towerConfiguration, 5);
     }
 
     private void Update()
