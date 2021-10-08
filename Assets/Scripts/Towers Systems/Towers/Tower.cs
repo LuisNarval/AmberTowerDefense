@@ -23,22 +23,17 @@ public abstract class Tower : MonoBehaviour
     private ITowerState currentState;
     private AtackTowerState AtackState;
     private SearchTowerState SearchState;
-    private Transform position;
-
+   
     public void Awake()
     {
         AtackState = gameObject.AddComponent<AtackTowerState>();
         SearchState = gameObject.AddComponent<SearchTowerState>();
     }
 
-    private void OnEnable()
+    public void SetInLand(Vector3 _position)
     {
+        transform.position = _position;
         Init();
-    }
-
-    public void SetInLand(Transform _position)
-    {
-        position = _position;
     }
 
     public void Init()
