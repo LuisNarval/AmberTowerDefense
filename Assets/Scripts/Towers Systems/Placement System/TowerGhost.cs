@@ -17,7 +17,6 @@ public class TowerGhost : MonoBehaviour
         if (!inGrid)
         {
             inGrid = true;
-            Debug.Log("SET GRID");
             this.transform.position = _grid.position;
             zoneRenderer.enabled = true;
             bodyMaterial.color = rightColor;
@@ -30,7 +29,6 @@ public class TowerGhost : MonoBehaviour
 
         if (inGrid)
         {
-            Debug.Log("UNSET");
             inGrid = false;
             zoneRenderer.enabled = false;
             bodyMaterial.color = wrongColor;

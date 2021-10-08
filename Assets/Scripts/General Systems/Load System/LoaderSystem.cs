@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 /// <summary>
 /// The Loader System is responsable for building the levels
 /// It takes the información from the Loader Info subscribed to the Service Locator.
@@ -11,20 +12,17 @@ using UnityEngine.SceneManagement;
 
 public class LoaderSystem : MonoBehaviour
 {
+    [SerializeField] GameObject loaderContent;
+    [SerializeField] private Image loadBar;
+   
     SceneConfiguration sceneConfiguration;
-    public int currentLevel = 0;
-
     List<AsyncOperation> operations = new List<AsyncOperation>();
-
-    private void Awake()
-    {
-        GetLoadInfo();
-
-        Load();
-    }
+    public int currentLevel = 0;
 
     private void Start()
     {
+        GetLoadInfo();
+        Load();
     }
 
     public void GetLoadInfo()
@@ -35,10 +33,10 @@ public class LoaderSystem : MonoBehaviour
 
     public void Load()
     {
-        StartCoroutine(LoadLevelScenes());
+        StartCoroutine(LoadScenes());
     }
 
-    IEnumerator LoadLevelScenes()
+    IEnumerator LoadScenes()
     {
         for (int i = 0; i < sceneConfiguration.Level[currentLevel].Scene.Length; i++)
         {
@@ -48,30 +46,39 @@ public class LoaderSystem : MonoBehaviour
             operations.Add(asyncLoad);
         }
 
-        bool allScenesLoaded = false;
-        while (!allScenesLoaded)
+        while (GeneralProgress() < 0.89f)
         {
-            allScenesLoaded = true;
-            foreach (var operation in operations)
-            {
-                Debug.Log("Progres: " + operation.progress);
-                if (operation.progress<0.9f)
-                {
-                    allScenesLoaded = false;
-                    break;
-                }
-            }
-           
-            yield return null;
+            loadBar.fillAmount = GeneralProgress();
+            yield return new WaitForEndOfFrame();
         }
 
+        loadBar.fillAmount = GeneralProgress();
+        yield return new WaitForSeconds(2.0f);
+        loadBar.fillAmount = 1.0f;
+
+        loaderContent.SetActive(false);
+        SceneManager.UnloadSceneAsync(1);
+        
         foreach (var operation in operations)
         {
             operation.allowSceneActivation = true;
         }
 
-        SceneManager.UnloadSceneAsync(1);
-
     }
+
+    float GeneralProgress()
+    {
+        float total = 0;
+        float currentProgress = 0;
+
+        foreach (var op in operations)
+        {
+            total++;
+            currentProgress += op.progress;
+        }
+
+        return currentProgress / total;
+    }
+
 
 }

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] Canvas winScreen;
     [SerializeField] Canvas looseScreen;
+    [SerializeField] Canvas pauseScreen;
     [SerializeField] Canvas countDownScreen;
 
     private void Awake()
@@ -75,10 +76,27 @@ public class GameManager : MonoBehaviour
         looseScreen.enabled = true;
     }
 
+    public void Pause()
+    {
+        Time.timeScale = 0.0f;
+        pauseScreen.enabled = true;
+    }
+
+    public void unPause()
+    {
+        Time.timeScale = 1.0f;
+        pauseScreen.enabled = false;
+    }
+
 
     public void NextLevel()
     {
         ServiceLocator.GetService<LoaderInfo>().nextLevel++;
+        SceneManager.LoadScene(1);
+    }
+
+    public void RetryLevel()
+    {
         SceneManager.LoadScene(1);
     }
 
