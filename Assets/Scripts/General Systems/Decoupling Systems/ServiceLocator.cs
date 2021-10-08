@@ -15,14 +15,7 @@ public class ServiceLocator
 
     public static void RegisterService<T>(T service)
     {
-        if (!Services.ContainsKey(typeof(T)))
-        {
-            Services[typeof(T)] = service;
-        }
-        else
-        {
-            throw new ApplicationException ("Service already registered");
-        }
+        Services[typeof(T)] = service;
     }
 
     public static T GetService<T>()
