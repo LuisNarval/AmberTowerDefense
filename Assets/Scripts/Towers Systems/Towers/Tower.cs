@@ -13,23 +13,8 @@ using UnityEngine;
 public abstract class Tower : MonoBehaviour
 {
     [SerializeField] public string ID;
-    [SerializeField] public string bulletID;
-    [SerializeField] public float turnSpeed;
-    [SerializeField] public float shootRate;
-    [SerializeField] public Transform weaponPivot;
-    [SerializeField] public Transform bulletPivot;
-
-    public Transform currentObjective;
-    private ITowerState currentState;
-    private AtackTowerState AtackState;
-    private SearchTowerState SearchState;
+    protected ITowerState currentState;
    
-    public void Awake()
-    {
-        AtackState = gameObject.AddComponent<AtackTowerState>();
-        SearchState = gameObject.AddComponent<SearchTowerState>();
-    }
-
     public void SetInLand(Vector3 _position)
     {
         transform.position = _position;
@@ -38,30 +23,11 @@ public abstract class Tower : MonoBehaviour
 
     public void Init()
     {
-        Search();
+        SetInitialState();
     }
 
-    public void Search()
-    {
-        ChangeState(SearchState);
-    }
 
-    public void Atack(Transform objective)
-    {
-        currentObjective = objective;
-        ChangeState(AtackState);
-    }
+    public abstract void SetInitialState();
+    public abstract void ChangeState(ITowerState _towerState);
 
-    public void ChangeState(ITowerState _towerState)
-    {
-        if (currentState != null)
-        {
-            currentState.DisHandle();
-        }
-
-        currentState = _towerState;
-        currentState.Handle(this);
-    }
-
-    public abstract void TakeDamage();
 }

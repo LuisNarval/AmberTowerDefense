@@ -11,15 +11,18 @@ using UnityEngine;
 
 public class SearchTowerState : MonoBehaviour, ITowerState
 {
-    private Tower tower;
+    private AtackTower tower;
     bool stateActive = false;
-    public void Handle(Tower _tower)
+    public void Handle(AtackTower _tower)
     {
         tower = _tower;
         stateActive = true;
         CheckArea();
         StartCoroutine("Turn");
     }
+
+    public void Handle(FarmTower _tower) { }  
+
     public void DisHandle()
     {
         stateActive = false;

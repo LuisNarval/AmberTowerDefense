@@ -10,16 +10,18 @@ using UnityEngine;
 
 public class AtackTowerState : MonoBehaviour, ITowerState
 {
-    Tower tower;
+    AtackTower tower;
     bool stateActive = false;
 
 
-    public void Handle(Tower _tower)
+    public void Handle(AtackTower _tower)
     {
         tower = _tower;
         stateActive = true;
         StartCoroutine("Aim");
     }
+
+    public void Handle(FarmTower _tower) { }
     public void DisHandle()
     {
         stateActive = false;
