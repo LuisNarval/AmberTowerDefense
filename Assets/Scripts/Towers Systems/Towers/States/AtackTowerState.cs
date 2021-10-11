@@ -49,7 +49,10 @@ public class AtackTowerState : MonoBehaviour, ITowerState
 
         while (true)
         {
-            tower.weaponPivot.transform.LookAt(tower.currentObjective);
+            if (tower.currentObjective.GetComponent<Enemy>().currentLife > 0)
+            {
+                tower.weaponPivot.transform.LookAt(tower.currentObjective);
+            }
             yield return new WaitForEndOfFrame();
         }
     }

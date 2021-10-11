@@ -29,7 +29,7 @@ public abstract class Enemy : MonoBehaviour
     public bool isActive;
     private bool isAtacking;
 
-    protected float currentLife;
+    [HideInInspector] public float currentLife;
     protected Transform destination;
     protected Transform origin;
     protected NavMeshAgent navMeshAgent;
