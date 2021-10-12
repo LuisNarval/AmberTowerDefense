@@ -28,14 +28,10 @@ public class BulletPool
 
         bulletConfig = _bulletConfiguration;
         defaultBufferAmount = _defaultBufferAmount;
-
-        Debug.Log("Default Bullet buffer:" + _defaultBufferAmount);
     }
 
     public void Init()
     {
-        Debug.Log("Created Default Pool Bullet");
-
         RegysterEnemyTypes();
         CreateDefaultObjects();
     }
@@ -107,8 +103,6 @@ public class BulletPool
 
     private void CreateDefaultObjects()
     {
-        Debug.Log("Created Default Pool");
-
         containerObject = new GameObject("BulletPool");
         pooledObjects = new List<GameObject>[objects.Length];
 

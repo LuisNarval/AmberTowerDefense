@@ -519,8 +519,8 @@ RectTransform:
   - {fileID: 666494478}
   - {fileID: 1400662752}
   - {fileID: 1532882421}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 2106347244}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -635,7 +635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f07d80a773168044593121bb84f955e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loaderContent: {fileID: 1824411631}
+  sceneConfiguration: {fileID: 11400000, guid: 3fa630071542c7341a2d61c4aefe5a28, type: 2}
+  loaderContent: {fileID: 1824411634}
   loadBar: {fileID: 912699088}
   currentLevel: 0
 --- !u!4 &2106347244
@@ -648,7 +649,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 887, y: 499, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1824411635}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

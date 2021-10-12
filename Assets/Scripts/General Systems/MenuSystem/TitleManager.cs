@@ -12,20 +12,9 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField] SceneConfiguration sceneConfiguration;
-
-    private void Awake()
-    {
-        LoaderInfo loaderInfo = new LoaderInfo();
-        ServiceLocator.RegisterService(loaderInfo);
-    }
-
     public void SelectLevel(int _level)
     {
-        ServiceLocator.GetService<LoaderInfo>().sceneConfiguration = sceneConfiguration;
-        ServiceLocator.GetService<LoaderInfo>().nextLevel = _level;
-
-        SceneManager.LoadScene(sceneConfiguration.Level[1].Scene[0].name);
+        LoaderSystem.Instance.GoToLevel(_level);
     }
 
 }

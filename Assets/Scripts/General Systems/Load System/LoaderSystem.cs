@@ -10,40 +10,105 @@ using UnityEngine.UI;
 /// will beggin to build the levels, wich are conformed by a Gameplay Scene & the a Level Scene.
 /// </summary>
 
-public class LoaderSystem : MonoBehaviour
+public class LoaderSystem : Singleton<LoaderSystem>
 {
-    [SerializeField] GameObject loaderContent;
+    [SerializeField] private SceneConfiguration sceneConfiguration;
+    [SerializeField] private Canvas loaderContent;
     [SerializeField] private Image loadBar;
+    private List<AsyncOperation> operations;
+
+    [SerializeField] private int previousLevel;
+
+    [SerializeField] private int _currentLevelz;
+    [SerializeField] public int currentLevel {
+        get { return _currentLevelz; }
+        set
+        {
+            if (value >= sceneConfiguration.Level.Length)
+                _currentLevelz = 1;
+            else
+                _currentLevelz = value;
+        }
+    } 
    
-    SceneConfiguration sceneConfiguration;
-    List<AsyncOperation> operations = new List<AsyncOperation>();
-    public int currentLevel = 0;
 
     private void Start()
     {
-        GetLoadInfo();
-        Load();
-    }
-
-    public void GetLoadInfo()
-    {
-       sceneConfiguration = ServiceLocator.GetService<LoaderInfo>().sceneConfiguration;
-       currentLevel = ServiceLocator.GetService<LoaderInfo>().nextLevel;
-    }
-
-    public void Load()
-    {
+        previousLevel = 0;
+        currentLevel = 1;
+        loaderContent.enabled = true;
         StartCoroutine(LoadScenes());
+        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(0));
     }
 
-    IEnumerator LoadScenes()
+
+    public void GoToLevel(int _level)
     {
+        StopAllCoroutines();
+        previousLevel = currentLevel;
+        currentLevel = _level;
+        StartCoroutine(ChangeLevel());
+    }
+
+    public void GoToLevel()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ChangeLevel());
+    }
+
+    private IEnumerator ChangeLevel()
+    {
+        Time.timeScale = 1.0f;
+
+        yield return StartCoroutine(UnLoadScenes());
+        yield return StartCoroutine(LoadScenes());
+
+        EventBus.Publish(GameEvent.SCENESLOADED);
+    }
+
+
+    private IEnumerator UnLoadScenes()
+    {
+        operations = new List<AsyncOperation>();
+
+        for (int i = 0; i < sceneConfiguration.Level[previousLevel].Scene.Length; i++)
+        {
+            string sceneName = sceneConfiguration.Level[previousLevel].Scene[i].name;
+            AsyncOperation asyncLoad = SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(sceneName), UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+            operations.Add(asyncLoad);
+        }
+
+        for (int i = 0; i < operations.Count; i++)
+        {
+            yield return new WaitUntil(()=> operations[i].isDone);
+        }
+
+        loaderContent.enabled = false;
+
+
+    }
+
+
+    private IEnumerator LoadScenes()
+    {
+        loaderContent.enabled = true;
+        operations = new List<AsyncOperation>();
+
         for (int i = 0; i < sceneConfiguration.Level[currentLevel].Scene.Length; i++)
         {
             string sceneName = sceneConfiguration.Level[currentLevel].Scene[i].name;
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            asyncLoad.allowSceneActivation = false;
-            operations.Add(asyncLoad);
+
+            /*if(i== 0)
+            {
+                SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+            }
+            else
+            {*/
+                AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+                asyncLoad.allowSceneActivation = false;
+                operations.Add(asyncLoad);
+            //}
+
         }
 
         while (GeneralProgress() < 0.89f)
@@ -52,21 +117,35 @@ public class LoaderSystem : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        loadBar.fillAmount = GeneralProgress();
-        yield return new WaitForSeconds(2.0f);
         loadBar.fillAmount = 1.0f;
 
-        loaderContent.SetActive(false);
-        SceneManager.UnloadSceneAsync(1);
-        
+        yield return new WaitForSeconds(1.0f);
+
         foreach (var operation in operations)
         {
             operation.allowSceneActivation = true;
         }
 
+        foreach (var operation in operations)
+        {
+            yield return new WaitUntil(() => operation.isDone);
+        }
+
+        loaderContent.enabled = false;
+
+        Scene scene;
+        string sceneNamae = sceneConfiguration.Level[currentLevel].Scene[0].name;
+        scene = SceneManager.GetSceneByName(sceneNamae);
+        yield return new WaitUntil(() => scene.isLoaded);
+        SceneManager.SetActiveScene(scene);
+
+        yield return new WaitForEndOfFrame();
+
     }
 
-    float GeneralProgress()
+
+
+    private float GeneralProgress()
     {
         float total = 0;
         float currentProgress = 0;

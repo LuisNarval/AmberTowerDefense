@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneConfigurationName: Default Scenes
   Level:
-  - LevelName: MainMenu
-    Scene:
-    - {fileID: 102900000, guid: 514718aece5966049b04fb3709884706, type: 3}
   - LevelName: Loader
     Scene:
     - {fileID: 102900000, guid: 918c7f3f44770454db28992ac8723a72, type: 3}
+  - LevelName: TitleScreen
+    Scene:
+    - {fileID: 102900000, guid: 514718aece5966049b04fb3709884706, type: 3}
   - LevelName: Level1
     Scene:
     - {fileID: 102900000, guid: 3e1823a1fa470314db62f6cb2e4b1c35, type: 3}

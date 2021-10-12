@@ -18,7 +18,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] Canvas pauseScreen;
     [SerializeField] Canvas countDownScreen;
 
-    private void Awake()
+    public void Awake()
+    {
+        Time.timeScale = 1.0f;
+        EventBus.Subscribe(GameEvent.SCENESLOADED, Init);
+    }
+
+    public void Init()
     {
         winScreen.enabled = false;
         looseScreen.enabled = false;
@@ -33,7 +39,8 @@ public class GameManager : MonoBehaviour
         Text txt = countDownScreen.GetComponentInChildren<Text>();
         txt.text = "READY ? "; 
         countDownScreen.enabled = true;
-        yield return new WaitForSeconds(1.0f);
+
+        yield return new WaitForSecondsRealtime(1.0f);
 
         for (int i = 3; i > 0; i--)
         {
@@ -43,7 +50,7 @@ public class GameManager : MonoBehaviour
         txt.text = "START !";
         yield return StartCoroutine(Scale(txt.rectTransform));
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSecondsRealtime(1.0f);
 
         countDownScreen.enabled = false;
         StartGame();
@@ -57,8 +64,10 @@ public class GameManager : MonoBehaviour
         {
             scale += Time.deltaTime;
             rTransform.localScale = Vector3.one * scale;
+
             yield return new WaitForEndOfFrame();
         }
+
     }
 
     void StartGame()
@@ -91,19 +100,19 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        ServiceLocator.GetService<LoaderInfo>().nextLevel++;
-        SceneManager.LoadScene(1);
+        int level = LoaderSystem.Instance.currentLevel;
+        level++;
+        LoaderSystem.Instance.GoToLevel(level);
     }
 
     public void RetryLevel()
     {
-        SceneManager.LoadScene(1);
+        LoaderSystem.Instance.GoToLevel(LoaderSystem.Instance.currentLevel);
     }
 
     public void ExitGame()
     {
-        ServiceLocator.GetService<LoaderInfo>().nextLevel = 0;
-        SceneManager.LoadScene(1);
+        LoaderSystem.Instance.GoToLevel(1);
     }
 
 
