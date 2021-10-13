@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class Level
 {
     public string LevelName;
-    public Object[] Scene; 
+    public string[] Scene; 
 }
 
 

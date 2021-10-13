@@ -16,23 +16,23 @@ MonoBehaviour:
   Level:
   - LevelName: Loader
     Scene:
-    - {fileID: 102900000, guid: 918c7f3f44770454db28992ac8723a72, type: 3}
+    - 0_Loader
   - LevelName: TitleScreen
     Scene:
-    - {fileID: 102900000, guid: 514718aece5966049b04fb3709884706, type: 3}
+    - 1_Title
   - LevelName: Level1
     Scene:
-    - {fileID: 102900000, guid: 3e1823a1fa470314db62f6cb2e4b1c35, type: 3}
-    - {fileID: 102900000, guid: 9f93b4b029abe38478b3dcf147a44e21, type: 3}
+    - Gameplay
+    - Level1
   - LevelName: Level2
     Scene:
-    - {fileID: 102900000, guid: 3e1823a1fa470314db62f6cb2e4b1c35, type: 3}
-    - {fileID: 102900000, guid: 3b122d16febe2dd40a6a00f3d3927469, type: 3}
+    - Gameplay
+    - Level2
   - LevelName: Level3
     Scene:
-    - {fileID: 102900000, guid: 3e1823a1fa470314db62f6cb2e4b1c35, type: 3}
-    - {fileID: 102900000, guid: 025f41db7db6c5c4b95e30da787f0def, type: 3}
+    - Gameplay
+    - Level3
   - LevelName: Level4
     Scene:
-    - {fileID: 102900000, guid: 3e1823a1fa470314db62f6cb2e4b1c35, type: 3}
-    - {fileID: 102900000, guid: 3e9bcffaeb370e347bc3ef293d2ef40b, type: 3}
+    - Gameplay
+    - Level4

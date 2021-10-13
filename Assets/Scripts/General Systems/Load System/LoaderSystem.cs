@@ -17,20 +17,20 @@ public class LoaderSystem : Singleton<LoaderSystem>
     [SerializeField] private Image loadBar;
     private List<AsyncOperation> operations;
 
-    [SerializeField] private int previousLevel;
-
-    [SerializeField] private int _currentLevelz;
-    [SerializeField] public int currentLevel {
-        get { return _currentLevelz; }
+    private int previousLevel;
+    private int _currentLevel;
+    public int currentLevel
+    {
+        get { return _currentLevel; }
         set
         {
             if (value >= sceneConfiguration.Level.Length)
-                _currentLevelz = 1;
+                _currentLevel = 1;
             else
-                _currentLevelz = value;
+                _currentLevel = value;
         }
-    } 
-   
+    }
+
 
     private void Start()
     {
@@ -38,9 +38,7 @@ public class LoaderSystem : Singleton<LoaderSystem>
         currentLevel = 1;
         loaderContent.enabled = true;
         StartCoroutine(LoadScenes());
-        SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(0));
     }
-
 
     public void GoToLevel(int _level)
     {
@@ -73,43 +71,38 @@ public class LoaderSystem : Singleton<LoaderSystem>
 
         for (int i = 0; i < sceneConfiguration.Level[previousLevel].Scene.Length; i++)
         {
-            string sceneName = sceneConfiguration.Level[previousLevel].Scene[i].name;
+            string sceneName = sceneConfiguration.Level[previousLevel].Scene[i];
             AsyncOperation asyncLoad = SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(sceneName), UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
             operations.Add(asyncLoad);
+
         }
 
         for (int i = 0; i < operations.Count; i++)
         {
-            yield return new WaitUntil(()=> operations[i].isDone);
+            yield return new WaitUntil(() => operations[i].isDone);
         }
 
         loaderContent.enabled = false;
-
-
     }
 
 
     private IEnumerator LoadScenes()
     {
+        string sceneName;
+
         loaderContent.enabled = true;
+
         operations = new List<AsyncOperation>();
 
         for (int i = 0; i < sceneConfiguration.Level[currentLevel].Scene.Length; i++)
         {
-            string sceneName = sceneConfiguration.Level[currentLevel].Scene[i].name;
+            sceneName = sceneConfiguration.Level[currentLevel].Scene[i];
 
-            /*if(i== 0)
-            {
-                SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-            }
-            else
-            {*/
-                AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-                asyncLoad.allowSceneActivation = false;
-                operations.Add(asyncLoad);
-            //}
-
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            asyncLoad.allowSceneActivation = true;
+            operations.Add(asyncLoad);
         }
+
 
         while (GeneralProgress() < 0.89f)
         {
@@ -121,26 +114,36 @@ public class LoaderSystem : Singleton<LoaderSystem>
 
         yield return new WaitForSeconds(1.0f);
 
+
         foreach (var operation in operations)
         {
             operation.allowSceneActivation = true;
         }
+
 
         foreach (var operation in operations)
         {
             yield return new WaitUntil(() => operation.isDone);
         }
 
+
         loaderContent.enabled = false;
 
+
         Scene scene;
-        string sceneNamae = sceneConfiguration.Level[currentLevel].Scene[0].name;
-        scene = SceneManager.GetSceneByName(sceneNamae);
-        yield return new WaitUntil(() => scene.isLoaded);
+        for (int i = 0; i < sceneConfiguration.Level[currentLevel].Scene.Length; i++)
+        {
+
+            sceneName = sceneConfiguration.Level[currentLevel].Scene[i];
+            scene = SceneManager.GetSceneByName(sceneName);
+
+            yield return new WaitUntil(() => scene.isLoaded);
+        }
+
+        scene = SceneManager.GetSceneByName(sceneConfiguration.Level[currentLevel].Scene[0]);
         SceneManager.SetActiveScene(scene);
 
         yield return new WaitForEndOfFrame();
-
     }
 
 
@@ -150,10 +153,10 @@ public class LoaderSystem : Singleton<LoaderSystem>
         float total = 0;
         float currentProgress = 0;
 
-        foreach (var op in operations)
+        for (int i = 0; i < operations.Count; i++)
         {
             total++;
-            currentProgress += op.progress;
+            currentProgress += operations[i].progress;
         }
 
         return currentProgress / total;
